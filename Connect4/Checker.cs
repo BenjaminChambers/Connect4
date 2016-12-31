@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Connect4
 {
-    public class Class1
-    {
-    }
+    public enum Checker {None, Black, Red}
 }
