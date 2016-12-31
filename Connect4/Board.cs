@@ -63,6 +63,10 @@ namespace Connect4
         #endregion
 
         #region Action
+        /// <summary>
+        /// Plays a move, if possible, and sets the resulting State variable to Black/Red Wins, Tie, or InProgress
+        /// </summary>
+        /// <param name="Col">The column to drop a checker in</param>
         public void PlayMove(uint Col)
         {
             if (State != GameState.InProgress) throw new InvalidOperationException("Game is already finished. Current state: " + State.ToString());
