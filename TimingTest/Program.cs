@@ -11,30 +11,38 @@ namespace TimingTest
         static void Main(string[] args)
         {
             Random rnd = new Random();
-            uint total = 0;
 
-            Console.WriteLine("Timing random games for 10 seconds.");
-            for (int i=0; i<10; i++)
+            Console.WriteLine("Timing random games for 3 seconds each.");
+
+            for (uint w=4; w<10; w++)
             {
-                uint count = 0;
-                var Start = DateTime.Now;
-                do
+                for (uint h=4; h<10; h++)
                 {
-                    Connect4.Board game = new Connect4.Board();
-                    while (game.State== Connect4.GameState.InProgress)
+                    uint count = 0;
+                    uint b=0, r=0, t=0;
+                    var Start = DateTime.Now;
+                    do
                     {
-                        List<uint> possible = new List<uint>();
-                        for (uint c = 0; c < 7; c++)
-                            if (game.IsMoveValid(c))
-                                possible.Add(c);
-                        game.PlayMove(possible[rnd.Next(possible.Count())]);
-                    }
-                    count++;
-                } while ((DateTime.Now - Start).TotalSeconds < 1);
-                Console.WriteLine("{0} games/s", count);
-                total += count;
+                        var game = new Connect4.Board(w, h);
+                        while (game.State == Connect4.GameState.InProgress)
+                        {
+                            List<uint> possible = new List<uint>();
+                            for (uint c = 0; c < w; c++)
+                                if (game.IsMoveValid(c))
+                                    possible.Add(c);
+                            game.PlayMove(possible[rnd.Next(possible.Count())]);
+                        }
+                        count++;
+                        switch(game.State)
+                        {
+                            case Connect4.GameState.BlackWins: b++; break;
+                            case Connect4.GameState.RedWins: r++; break;
+                            case Connect4.GameState.Tie: t++; break;
+                        }
+                    } while ((DateTime.Now - Start).TotalSeconds < 3);
+                    Console.WriteLine("Playing on a " + w + "x" + h + " board, " + count / 3 + " games per second. Black / Red / Tie: " + b*100/count + "% / " + r*100/count + "% / " + t*100/count + "%");
+                }
             }
-            Console.WriteLine("Average over 10 seconds: {0}", total / 10);
         }
     }
 }
