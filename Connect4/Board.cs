@@ -71,6 +71,19 @@ namespace Connect4
             if (Col >= Width) throw new ArgumentOutOfRangeException("Col", "Value of " + Col.ToString() + " is greater than the " + Width + " available columns.");
             return (_height[Col] < Height);
         }
+        /// <summary>
+        /// Checks a specific location on the board.
+        /// </summary>
+        /// <param name="Col">The column to check.</param>
+        /// <param name="Row">The row to check.</param>
+        /// <returns>Throws an <see cref="ArgumentOutOfRangeException"/> if necessary, otherwise returns a <see cref="Checker"/></returns>
+        public Checker GetCell(uint Col, uint Row)
+        {
+            if (Col >= Width) throw new ArgumentOutOfRangeException("Col", "Value of " + Col.ToString() + " is greater than the " + Width + " available columns.");
+            if (Row >= Height) throw new ArgumentOutOfRangeException("Row", "Value of " + Row.ToString() + " is greater than the " + Height + " available rows.");
+
+            return _board[Col, Row];
+        }
         #endregion
 
         #region Action
