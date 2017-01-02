@@ -10,46 +10,73 @@ namespace TimingTest
     {
         static void Main(string[] args)
         {
-            Random rnd = new Random();
+            uint w1, w2, h1, h2;
+            bool[] smart = new bool[2];
+            double time;
 
-            Console.WriteLine("Timing random games for 3 seconds each.");
+            Console.WriteLine("This will test how fast your computer is at playing random games, and generate statistics on who wins those games.");
 
-            uint tcount = 0;
-            uint tb = 0, tr = 0, tt = 0;
-
-            for (uint w=5; w<10; w++)
+            do
             {
-                for (uint h=5; h<10; h++)
+                Console.WriteLine("Both width and height must be positive, and one of them must be greater than 3.");
+                Console.Write("What is the minimum board width? "); w1 = uint.Parse(Console.ReadLine());
+                Console.Write("What is the maximum board width? "); w2 = uint.Parse(Console.ReadLine());
+                Console.Write("What is the minimum board height? "); h1 = uint.Parse(Console.ReadLine());
+                Console.Write("What is the maximum board height? "); h2 = uint.Parse(Console.ReadLine());
+            } while ((w1 < 0) || (w2 < 0) || (h1 < 0) || (h2 < 0) || ((w1 < 4) && (h1 < 4)));
+
+            if (w2 < w1)
+            {
+                w2 = w1;
+                Console.WriteLine("Maximum width chosen was less than the minimum width. Setting maximum equal to mimum (one test size.");
+            }
+            if (h2 < h1)
+            {
+                h2 = h1;
+                Console.WriteLine("Maximum height chosen was less than the minimum height. Setting maximum equal to mimum (one test size.");
+            }
+
+            Console.Write("Should the first player make a winning move if it sees it? (No means it will play completely randomly) ");
+            string s = Console.ReadLine();
+            smart[0] = (s[0] == 'y') || (s[0] == 'Y');
+            Console.Write("Should the second player make a winning move if it sees it? ");
+            s = Console.ReadLine();
+            smart[1] = (s[0] == 'y') || (s[0] == 'Y');
+
+            Console.Write("How many seconds should each board size be tested for? (floating point value) ");
+            time = double.Parse(Console.ReadLine());
+
+            Console.WriteLine("Starting test...");
+            for (uint w = w1; w <= w2; w++)
+            {
+                for (uint h = h1; h <= h2; h++)
                 {
                     uint count = 0;
-                    uint b=0, r=0, t=0;
+                    uint b = 0, r = 0, t = 0;
                     var Start = DateTime.Now;
                     do
                     {
                         var game = new Connect4.Board(w, h);
                         while (game.State == Connect4.GameState.InProgress)
-                            game.PlayRandomMove();
+                        {
+                            if (smart[game.WhoseMove == Connect4.Checker.Black ? 0 : 1])
+                                game.PlayRandomWinningMove();
+                            else
+                                game.PlayRandomMove();
+                        }
                         count++;
-                        switch(game.State)
+                        switch (game.State)
                         {
                             case Connect4.GameState.BlackWins: b++; break;
                             case Connect4.GameState.RedWins: r++; break;
                             case Connect4.GameState.Tie: t++; break;
                         }
-                    } while ((DateTime.Now - Start).TotalSeconds < 3);
-                    Console.WriteLine("Playing on a " + w + "x" + h + " board, " + count / 3 + " games per second."
-                        + "\tBlack / Red / Tie: " + b*100/count + "% / " + r*100/count + "% / " + t*100/count + "%"
-                        + "\tFirst move advantage: {0:0.000}", (r>0)?(double)b/(double)r:0);
-
-                    tcount += count;
-                    tb += b; tr += r; tt += t;
+                    } while ((DateTime.Now - Start).TotalSeconds < time);
+                    Console.WriteLine("Playing on a " + w + "x" + h + " board, " + (uint)((double)count / time) + " games per second."
+                        + "\tBlack / Red / Tie: " + b * 100 / count + "% / " + r * 100 / count + "% / " + t * 100 / count + "%"
+                        + "\tFirst move advantage: {0:0.000}", (r > 0) ? (double)b / (double)r : 0);
                 }
             }
-
-            Console.WriteLine();
-            Console.WriteLine("Out of all the games, played " + tcount / 75 + " games per second."
-                + "\tBlack / Red / Tie: " + tb * 100 / tcount + "% / " + tr * 100 / tcount + "% / " + tt * 100 / tcount + "%"
-                + "\tFirst move advantage: {0:0.000}", (tr > 0) ? (double)tb / (double)tr : 0);
         }
     }
 }
