@@ -34,6 +34,8 @@ namespace Connect4
         {
             Width = Src.Width;
             Height = Src.Height;
+            _board = new Checker[Width, Height];
+            _height = new uint[Width];
             Array.Copy(Src._board, _board, (int)(Width*Height));
             Array.Copy(Src._height, _height, (int)Width);
             State = Src.State;
@@ -130,7 +132,33 @@ namespace Connect4
                 if (IsMoveValid(c))
                     possible.Add(c);
             PlayMove(possible[rnd.Next(possible.Count())]);
+        }
+        /// <summary>
+        /// First checks for a winning move and, if available, makes it.
+        /// Otherwise, plays a random move.
+        /// </summary>
+        public void PlayRandomWinningMove()
+        {
+            if (State != GameState.InProgress) throw new InvalidOperationException("Game is already finished. Current state: " + State.ToString());
 
+            List<uint> possible = new List<uint>();
+            for (uint c = 0; c < Width; c++)
+                if (IsMoveValid(c))
+                    possible.Add(c);
+
+            var me = (WhoseMove==Checker.Black)?GameState.BlackWins:GameState.RedWins;
+            foreach (var m in possible)
+            {
+                Board b = new Board(this);
+                b.PlayMove(m);
+                if (b.State==me)
+                {
+                    PlayMove(m);
+                    return;
+                }
+            }
+
+            PlayMove(possible[rnd.Next(possible.Count())]);
         }
         #endregion
 
