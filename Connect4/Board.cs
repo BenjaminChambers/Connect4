@@ -118,6 +118,20 @@ namespace Connect4
                     State = GameState.InProgress;
             }
         }
+        /// <summary>
+        /// Makes a random move for the current player.
+        /// </summary>
+        public void PlayRandomMove()
+        {
+            if (State != GameState.InProgress) throw new InvalidOperationException("Game is already finished. Current state: " + State.ToString());
+
+            List<uint> possible = new List<uint>();
+            for (uint c = 0; c < Width; c++)
+                if (IsMoveValid(c))
+                    possible.Add(c);
+            PlayMove(possible[rnd.Next(possible.Count())]);
+
+        }
         #endregion
 
 
@@ -158,6 +172,8 @@ namespace Connect4
         Checker[,] _board;
         uint[] _height;
         List<uint> _history = new List<uint>();
+
+        static Random rnd = new Random();
         #endregion
     }
 }
