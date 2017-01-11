@@ -16,7 +16,7 @@ namespace Connect4
         /// </summary>
         /// <param name="Columns">The number of Columns, defaults to 7</param>
         /// <param name="Rows">The number of Rows, defaults to 6</param>
-        public Board(uint Columns=7, uint Rows=6)
+        public Board(uint Columns = 7, uint Rows = 6)
         {
             if ((Columns < 4) && (Rows < 4))
                 throw new ArgumentException("One of columns or rows must be >= 4.");
@@ -36,7 +36,7 @@ namespace Connect4
             Height = Src.Height;
             _board = new Checker[Width, Height];
             _height = new uint[Width];
-            Array.Copy(Src._board, _board, (int)(Width*Height));
+            Array.Copy(Src._board, _board, (int)(Width * Height));
             Array.Copy(Src._height, _height, (int)Width);
             State = Src.State;
         }
@@ -85,6 +85,13 @@ namespace Connect4
             if (Row >= Height) throw new ArgumentOutOfRangeException("Row", "Value of " + Row.ToString() + " is greater than the " + Height + " available rows.");
 
             return _board[Col, Row];
+        }
+        /// <summary>
+        /// A list of moves played so far
+        /// </summary>
+        public IReadOnlyList<uint> History
+        {
+            get { return _history; }
         }
         #endregion
 

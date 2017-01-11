@@ -6,12 +6,10 @@
     <title>$title$</title>
     <authors>Benjamin Chambers</authors>
     <owners>Benjamin Chambers</owners>
-    <licenseUrl>http://LICENSE_URL_HERE_OR_DELETE_THIS_LINE</licenseUrl>
-    <projectUrl>http://PROJECT_URL_HERE_OR_DELETE_THIS_LINE</projectUrl>
-    <iconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</iconUrl>
+    <licenseUrl>https://opensource.org/licenses/MIT</licenseUrl>
+    <projectUrl>https://github.com/BenjaminChambers/Connect4</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>A .Net package for playing Connect 4 games. The board size is user-specifiable.</description>
-    <releaseNotes>Initial release.</releaseNotes>
+    <description>A .Net library for playing Connect 4 games. The board size is user-specifiable.</description>
     <copyright>Copyright 2017</copyright>
     <tags>Net Connect4</tags>
   </metadata>
