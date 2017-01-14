@@ -5,9 +5,6 @@ using System.Text;
 
 namespace Connect4
 {
-    /// <summary>
-    /// Main board class.
-    /// </summary>
     public class Board
     {
         #region Constructors    
