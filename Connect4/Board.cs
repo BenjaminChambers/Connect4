@@ -11,11 +11,6 @@ namespace Connect4
     public class Board
     {
         #region Constructors    
-        /// <summary>
-        /// Initializes an empty board
-        /// </summary>
-        /// <param name="Columns">The number of Columns, defaults to 7</param>
-        /// <param name="Rows">The number of Rows, defaults to 6</param>
         public Board(int Columns = 7, int Rows = 6)
         {
             if ((Columns < 4) && (Rows < 4))
@@ -26,10 +21,7 @@ namespace Connect4
             _board = new Checker[Width, Height];
             _height = new int[Width];
         }
-        /// <summary>
-        /// Copies an existing board, including all state information
-        /// </summary>
-        /// <param name="Src">The board to copy</param>
+
         public Board(Board Src)
         {
             Width = Src.Width;
@@ -38,7 +30,6 @@ namespace Connect4
             _height = new int[Width];
             Array.Copy(Src._board, _board, Width * Height);
             Array.Copy(Src._height, _height, Width);
-            State = Src.State;
         }
         #endregion
 
@@ -46,23 +37,13 @@ namespace Connect4
         public int Width { get; private set; }
         public int Height { get; private set; }
 
-        /// <summary>
-        /// Checks if a specific move is valid
-        /// </summary>
-        /// <param name="Col">The column to check</param>
-        /// <returns>Returns false if that column is full, or true if there is room available</returns>
         public bool IsMoveValid(int Col)
         {
             if ((Col<0) || (Col >= Width))
                 throw new ArgumentOutOfRangeException("Col", "Value of " + Col.ToString() + " is greater than the " + Width + " available columns.");
             return (_height[Col] < Height);
         }
-        /// <summary>
-        /// Checks a specific location on the board.
-        /// </summary>
-        /// <param name="Col">The column to check.</param>
-        /// <param name="Row">The row to check.</param>
-        /// <returns>Throws an <see cref="ArgumentOutOfRangeException"/> if necessary, otherwise returns a <see cref="Checker"/></returns>
+
         public Checker GetCell(int Col, int Row)
         {
             if (Col >= Width) throw new ArgumentOutOfRangeException("Col", "Value of " + Col.ToString() + " is greater than the " + Width + " available columns.");
@@ -70,9 +51,7 @@ namespace Connect4
 
             return _board[Col, Row];
         }
-        /// <summary>
-        /// A list of moves played so far
-        /// </summary>
+
         public IReadOnlyList<int> History
         {
             get { return _history; }
@@ -80,10 +59,6 @@ namespace Connect4
         #endregion
 
         #region Action
-        /// <summary>
-        /// Plays a move, if possible, and sets the resulting State variable to Black/Red Wins, Tie, or InProgress
-        /// </summary>
-        /// <param name="Col">The column to drop a checker in</param>
         public void PlayMove(int Col)
         {
             if (State != GameState.InProgress) throw new InvalidOperationException("Game is already finished. Current state: " + State.ToString());
@@ -111,9 +86,7 @@ namespace Connect4
                     State = GameState.InProgress;
             }
         }
-        /// <summary>
-        /// Makes a random move for the current player.
-        /// </summary>
+
         public void PlayRandomMove()
         {
             if (State != GameState.InProgress) throw new InvalidOperationException("Game is already finished. Current state: " + State.ToString());
@@ -124,10 +97,7 @@ namespace Connect4
                     possible.Add(c);
             PlayMove(possible[rnd.Next(possible.Count())]);
         }
-        /// <summary>
-        /// First checks for a winning move and, if available, makes it.
-        /// Otherwise, plays a random move.
-        /// </summary>
+
         public void PlayRandomWinningMove()
         {
             if (State != GameState.InProgress) throw new InvalidOperationException("Game is already finished. Current state: " + State.ToString());
