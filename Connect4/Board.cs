@@ -52,32 +52,6 @@ namespace Connect4
 
 
         #region Internal
-        static readonly int[] _dx = { -1, 0, 1, -1, 0, 1, -1, 0, 1 };
-        static readonly int[] _dy = { -1, -1, -1, 0, 0, 0, 1, 1, 1 };
-
-        Checker _boundsChecked(int Col, int Row)
-        {
-            if ((Col < 0) || (Col >= Width) || (Row < 0) || (Row >= Height))
-                return Checker.None;
-            return Cells[Col, Row];
-        }
-
-        int CountDir(int Col, int Row, int Dir, Checker Who)
-        {
-            int targetX = Col + _dx[Dir];
-            int targetY = Row + _dx[Dir];
-
-            int count = 0;
-            while (_boundsChecked(targetX, targetY) == Who)
-            {
-                count++;
-                targetX += _dx[Dir];
-                targetY += _dy[Dir];
-            }
-
-            return count;
-        }
-
         Checker[,] _board;
         int[] _height;
 
