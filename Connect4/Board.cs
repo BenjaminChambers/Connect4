@@ -20,15 +20,10 @@ namespace Connect4
             Cells = new CellView(this);
         }
 
-        public Board(Board Src)
+        public Board(Board Src) : this(Src.Width, Src.Height)
         {
-            Width = Src.Width;
-            Height = Src.Height;
-            _board = new Checker[Width, Height];
-            _height = new int[Width];
             Array.Copy(Src._board, _board, Width * Height);
             Array.Copy(Src._height, _height, Width);
-            Cells = new CellView(this);
         }
         #endregion
 
