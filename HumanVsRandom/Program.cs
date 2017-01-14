@@ -10,12 +10,22 @@ namespace HumanVsRandom
     {
         static void WriteGame(Connect4.Game game)
         {
-            for (int i=game.Height-1; i>=0; i--)
+            for (int row=game.Height-1; row>=0; row--)
             {
-                for (int j=0; j<game.Width; j++)
+                for (int col=0; col<game.Width; col++)
                 {
+                    switch(game.Board[col,row])
+                    {
+                        case Connect4.Checker.Black: Console.Write("|-"); break;
+                        case Connect4.Checker.Red: Console.Write("|*"); break;
+                        case Connect4.Checker.None: Console.Write("| "); break;
+                    }
                 }
+                Console.WriteLine("|");
             }
+            for (int i = 0; i < game.Width; i++)
+                Console.Write(" " + i.ToString());
+            Console.WriteLine();
         }
 
         static int GetHumanMove()
@@ -35,6 +45,15 @@ namespace HumanVsRandom
                     game.PlayMove(GetHumanMove());
                 else
                     game.PlayRandomMove();
+            }
+
+            WriteGame(game);
+            switch(game.State)
+            {
+                case Connect4.GameState.BlackWins: Console.WriteLine("You won!"); break;
+                case Connect4.GameState.RedWins: Console.WriteLine("The computer won!"); break;
+                case Connect4.GameState.Tie: Console.WriteLine("You tied!"); break;
+                case Connect4.GameState.InProgress: Console.WriteLine("This shouldn't happen... Game is still in progress..."); break;
             }
         }
     }
