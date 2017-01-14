@@ -43,26 +43,9 @@ namespace Connect4
         #endregion
 
         #region Information
-        /// <summary>
-        /// Indicates either Black or Red. Black has first move.
-        /// </summary>
-        public Checker WhoseMove
-        {
-            get
-            {
-                return (_history.Count() % 2 == 0) ? Checker.Black : Checker.Red;
-            }
-        }
         public int Width { get; private set; }
         public int Height { get; private set; }
-        /// <summary>
-        /// Returns the state of the current board
-        /// </summary>
-        public GameState State
-        {
-            get;
-            private set;
-        }
+
         /// <summary>
         /// Checks if a specific move is valid
         /// </summary>
@@ -70,7 +53,8 @@ namespace Connect4
         /// <returns>Returns false if that column is full, or true if there is room available</returns>
         public bool IsMoveValid(int Col)
         {
-            if (Col >= Width) throw new ArgumentOutOfRangeException("Col", "Value of " + Col.ToString() + " is greater than the " + Width + " available columns.");
+            if ((Col<0) || (Col >= Width))
+                throw new ArgumentOutOfRangeException("Col", "Value of " + Col.ToString() + " is greater than the " + Width + " available columns.");
             return (_height[Col] < Height);
         }
         /// <summary>
