@@ -97,8 +97,8 @@ namespace Connect4
         List<Board> _boardHistory = new List<Board>();
 
 
-        static readonly int[] _dx = { -1, 0, 1, -1, 0, 1, -1, 0, 1 };
-        static readonly int[] _dy = { -1, -1, -1, 0, 0, 0, 1, 1, 1 };
+        static readonly int[] _dx = { 0, -1, 0, 1, -1, 0, 1, -1, 0, 1 };
+        static readonly int[] _dy = { 0, -1, -1, -1, 0, 0, 0, 1, 1, 1 };
 
         Checker _boundsChecked(int Col, int Row)
         {
