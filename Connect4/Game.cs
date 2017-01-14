@@ -11,7 +11,8 @@ namespace Connect4
         #region Constructors
         public Game(int nColumns, int nRows, int NeededToWin)
         {
-            current = new Board(nColumns, nRows);
+            _current = new Board(nColumns, nRows);
+            _neededToWin = NeededToWin;
         }
         #endregion
 
@@ -21,7 +22,7 @@ namespace Connect4
         #region Info
         public Checker WhoseMove
         {
-            get { return moveHistory.Count % 2 == 0 ? Checker.Black : Checker.Red; }
+            get { return _moveHistory.Count % 2 == 0 ? Checker.Black : Checker.Red; }
         }
 
         public GameState State
@@ -32,9 +33,10 @@ namespace Connect4
         #endregion
 
         #region Internal
-        Board current;
-        List<int> moveHistory = new List<int>();
-        List<Board> boardHistory = new List<Board>();
+        int _neededToWin;
+        Board _current;
+        List<int> _moveHistory = new List<int>();
+        List<Board> _boardHistory = new List<Board>();
         #endregion
     }
 }
