@@ -10,7 +10,7 @@ namespace TimingTest
     {
         static void Main(string[] args)
         {
-            uint w1, w2, h1, h2;
+            int w1, w2, h1, h2;
             bool[] smart = new bool[2];
             double time;
 
@@ -19,10 +19,10 @@ namespace TimingTest
             do
             {
                 Console.WriteLine("Both width and height must be positive, and one of them must be greater than 3.");
-                Console.Write("What is the minimum board width? "); w1 = uint.Parse(Console.ReadLine());
-                Console.Write("What is the maximum board width? "); w2 = uint.Parse(Console.ReadLine());
-                Console.Write("What is the minimum board height? "); h1 = uint.Parse(Console.ReadLine());
-                Console.Write("What is the maximum board height? "); h2 = uint.Parse(Console.ReadLine());
+                Console.Write("What is the minimum board width? "); w1 = int.Parse(Console.ReadLine());
+                Console.Write("What is the maximum board width? "); w2 = int.Parse(Console.ReadLine());
+                Console.Write("What is the minimum board height? "); h1 = int.Parse(Console.ReadLine());
+                Console.Write("What is the maximum board height? "); h2 = int.Parse(Console.ReadLine());
             } while ((w1 < 0) || (w2 < 0) || (h1 < 0) || (h2 < 0) || ((w1 < 4) && (h1 < 4)));
 
             if (w2 < w1)
@@ -47,12 +47,12 @@ namespace TimingTest
             time = double.Parse(Console.ReadLine());
 
             Console.WriteLine("Starting test...");
-            for (uint w = w1; w <= w2; w++)
+            for (int w = w1; w <= w2; w++)
             {
-                for (uint h = h1; h <= h2; h++)
+                for (int h = h1; h <= h2; h++)
                 {
-                    uint count = 0;
-                    uint b = 0, r = 0, t = 0;
+                    int count = 0;
+                    int b = 0, r = 0, t = 0;
                     var Start = DateTime.Now;
                     do
                     {
@@ -72,7 +72,7 @@ namespace TimingTest
                             case Connect4.GameState.Tie: t++; break;
                         }
                     } while ((DateTime.Now - Start).TotalSeconds < time);
-                    Console.WriteLine("Playing on a " + w + "x" + h + " board, " + (uint)((double)count / time) + " games per second."
+                    Console.WriteLine("Playing on a " + w + "x" + h + " board, " + (int)((double)count / time) + " games per second."
                         + "\tBlack / Red / Tie: " + b * 100 / count + "% / " + r * 100 / count + "% / " + t * 100 / count + "%"
                         + "\tFirst move advantage: {0:0.000}", (r > 0) ? (double)b / (double)r : 0);
                 }

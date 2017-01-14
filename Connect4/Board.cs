@@ -16,7 +16,7 @@ namespace Connect4
         /// </summary>
         /// <param name="Columns">The number of Columns, defaults to 7</param>
         /// <param name="Rows">The number of Rows, defaults to 6</param>
-        public Board(uint Columns = 7, uint Rows = 6)
+        public Board(int Columns = 7, int Rows = 6)
         {
             if ((Columns < 4) && (Rows < 4))
                 throw new ArgumentException("One of columns or rows must be >= 4.");
@@ -24,7 +24,7 @@ namespace Connect4
             Width = Columns;
             Height = Rows;
             _board = new Checker[Width, Height];
-            _height = new uint[Width];
+            _height = new int[Width];
         }
         /// <summary>
         /// Copies an existing board, including all state information
@@ -35,9 +35,9 @@ namespace Connect4
             Width = Src.Width;
             Height = Src.Height;
             _board = new Checker[Width, Height];
-            _height = new uint[Width];
-            Array.Copy(Src._board, _board, (int)(Width * Height));
-            Array.Copy(Src._height, _height, (int)Width);
+            _height = new int[Width];
+            Array.Copy(Src._board, _board, Width * Height);
+            Array.Copy(Src._height, _height, Width);
             State = Src.State;
         }
         #endregion
@@ -53,8 +53,8 @@ namespace Connect4
                 return (_history.Count() % 2 == 0) ? Checker.Black : Checker.Red;
             }
         }
-        public uint Width { get; private set; }
-        public uint Height { get; private set; }
+        public int Width { get; private set; }
+        public int Height { get; private set; }
         /// <summary>
         /// Returns the state of the current board
         /// </summary>
@@ -68,7 +68,7 @@ namespace Connect4
         /// </summary>
         /// <param name="Col">The column to check</param>
         /// <returns>Returns false if that column is full, or true if there is room available</returns>
-        public bool IsMoveValid(uint Col)
+        public bool IsMoveValid(int Col)
         {
             if (Col >= Width) throw new ArgumentOutOfRangeException("Col", "Value of " + Col.ToString() + " is greater than the " + Width + " available columns.");
             return (_height[Col] < Height);
@@ -79,7 +79,7 @@ namespace Connect4
         /// <param name="Col">The column to check.</param>
         /// <param name="Row">The row to check.</param>
         /// <returns>Throws an <see cref="ArgumentOutOfRangeException"/> if necessary, otherwise returns a <see cref="Checker"/></returns>
-        public Checker GetCell(uint Col, uint Row)
+        public Checker GetCell(int Col, int Row)
         {
             if (Col >= Width) throw new ArgumentOutOfRangeException("Col", "Value of " + Col.ToString() + " is greater than the " + Width + " available columns.");
             if (Row >= Height) throw new ArgumentOutOfRangeException("Row", "Value of " + Row.ToString() + " is greater than the " + Height + " available rows.");
@@ -89,7 +89,7 @@ namespace Connect4
         /// <summary>
         /// A list of moves played so far
         /// </summary>
-        public IReadOnlyList<uint> History
+        public IReadOnlyList<int> History
         {
             get { return _history; }
         }
@@ -100,14 +100,14 @@ namespace Connect4
         /// Plays a move, if possible, and sets the resulting State variable to Black/Red Wins, Tie, or InProgress
         /// </summary>
         /// <param name="Col">The column to drop a checker in</param>
-        public void PlayMove(uint Col)
+        public void PlayMove(int Col)
         {
             if (State != GameState.InProgress) throw new InvalidOperationException("Game is already finished. Current state: " + State.ToString());
             if (Col >= Width) throw new ArgumentOutOfRangeException("Col", "Value of " + Col.ToString() + " is greater than the " + Width + " available columns.");
             if (_height[Col] >= Height) throw new InvalidOperationException("Column " + Col.ToString() + " is already full.");
 
-            uint x = Col;
-            uint y = _height[Col];
+            int x = Col;
+            int y = _height[Col];
             var me = WhoseMove;
 
             _board[x, y] = me;
@@ -134,8 +134,8 @@ namespace Connect4
         {
             if (State != GameState.InProgress) throw new InvalidOperationException("Game is already finished. Current state: " + State.ToString());
 
-            List<uint> possible = new List<uint>();
-            for (uint c = 0; c < Width; c++)
+            List<int> possible = new List<int>();
+            for (int c = 0; c < Width; c++)
                 if (IsMoveValid(c))
                     possible.Add(c);
             PlayMove(possible[rnd.Next(possible.Count())]);
@@ -148,8 +148,8 @@ namespace Connect4
         {
             if (State != GameState.InProgress) throw new InvalidOperationException("Game is already finished. Current state: " + State.ToString());
 
-            List<uint> possible = new List<uint>();
-            for (uint c = 0; c < Width; c++)
+            List<int> possible = new List<int>();
+            for (int c = 0; c < Width; c++)
                 if (IsMoveValid(c))
                     possible.Add(c);
 
@@ -171,7 +171,7 @@ namespace Connect4
 
 
         #region Private
-        uint CountDir(uint Col, uint Row, uint Dir, Checker Who)
+        int CountDir(int Col, int Row, int Dir, Checker Who)
         {
             int dX = 0;
             int dY = 0;
@@ -205,8 +205,8 @@ namespace Connect4
         }
 
         Checker[,] _board;
-        uint[] _height;
-        List<uint> _history = new List<uint>();
+        int[] _height;
+        List<int> _history = new List<int>();
 
         static Random rnd = new Random();
         #endregion
