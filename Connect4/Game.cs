@@ -15,6 +15,7 @@ namespace Connect4
             Height = nRows;
             NeededToWin = LengthNeededToWin;
             _current = new Board(nColumns, nRows);
+            Board = new BoardView(this);
         }
         #endregion
 
@@ -89,6 +90,8 @@ namespace Connect4
             get;
             private set;
         }
+
+        public readonly BoardView Board;
         #endregion
 
         #region Internal
@@ -124,6 +127,22 @@ namespace Connect4
         }
 
         static Random rnd = new Random();
+        public class BoardView
+        {
+            readonly Game _parent;
+            public BoardView(Game parent)
+            {
+                _parent = parent;
+            }
+
+            public Checker this[int Column, int Row]
+            {
+                get
+                {
+                    return _parent._current.Cells[Column, Row];
+                }
+            }
+        }
         #endregion
     }
 }
