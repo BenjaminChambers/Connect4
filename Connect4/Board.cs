@@ -39,7 +39,7 @@ namespace Connect4
 
         public bool IsMoveValid(int Col)
         {
-            if ((Col<0) || (Col >= Width))
+            if ((Col < 0) || (Col >= Width))
                 throw new ArgumentOutOfRangeException("Col", "Value of " + Col.ToString() + " is greater than the " + Width + " available columns.");
             return (_height[Col] < Height);
         }
@@ -59,67 +59,14 @@ namespace Connect4
         #endregion
 
         #region Action
-        public void PlayMove(int Col)
+        public void PutChecker(int Col, Checker Color)
         {
-            if (State != GameState.InProgress) throw new InvalidOperationException("Game is already finished. Current state: " + State.ToString());
-            if (Col >= Width) throw new ArgumentOutOfRangeException("Col", "Value of " + Col.ToString() + " is greater than the " + Width + " available columns.");
+            if ((Col < 0) || (Col >= Width)) throw new ArgumentOutOfRangeException("Col");
+            if (Color == Checker.None) throw new InvalidOperationException("Color cannot be Checker.None");
             if (_height[Col] >= Height) throw new InvalidOperationException("Column " + Col.ToString() + " is already full.");
 
-            int x = Col;
-            int y = _height[Col];
-            var me = WhoseMove;
-
-            _board[x, y] = me;
-            _height[x]++;
-            _history.Add(x);
-
-            if (((CountDir(x, y, 1, me) + CountDir(x, y, 9, me)) > 3)
-                || ((CountDir(x, y, 2, me) + CountDir(x, y, 8, me)) > 3)
-                || ((CountDir(x, y, 3, me) + CountDir(x, y, 7, me)) > 3)
-                || ((CountDir(x, y, 4, me) + CountDir(x, y, 6, me)) > 3))
-                State = (me == Checker.Black) ? GameState.BlackWins : GameState.RedWins;
-            else
-            {
-                if (_history.Count() == Width*Height)
-                    State = GameState.Tie;
-                else
-                    State = GameState.InProgress;
-            }
-        }
-
-        public void PlayRandomMove()
-        {
-            if (State != GameState.InProgress) throw new InvalidOperationException("Game is already finished. Current state: " + State.ToString());
-
-            List<int> possible = new List<int>();
-            for (int c = 0; c < Width; c++)
-                if (IsMoveValid(c))
-                    possible.Add(c);
-            PlayMove(possible[rnd.Next(possible.Count())]);
-        }
-
-        public void PlayRandomWinningMove()
-        {
-            if (State != GameState.InProgress) throw new InvalidOperationException("Game is already finished. Current state: " + State.ToString());
-
-            List<int> possible = new List<int>();
-            for (int c = 0; c < Width; c++)
-                if (IsMoveValid(c))
-                    possible.Add(c);
-
-            var me = (WhoseMove==Checker.Black)?GameState.BlackWins:GameState.RedWins;
-            foreach (var m in possible)
-            {
-                Board b = new Board(this);
-                b.PlayMove(m);
-                if (b.State==me)
-                {
-                    PlayMove(m);
-                    return;
-                }
-            }
-
-            PlayMove(possible[rnd.Next(possible.Count())]);
+            _board[Col, _height[Col]] = Color;
+            _height[Col]++;
         }
         #endregion
 
