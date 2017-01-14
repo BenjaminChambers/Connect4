@@ -55,37 +55,30 @@ namespace Connect4
 
 
         #region Internal
+        static readonly int[] _dx = { -1, 0, 1, -1, 0, 1, -1, 0, 1 };
+        static readonly int[] _dy = { -1, -1, -1, 0, 0, 0, 1, 1, 1 };
+
+        Checker _boundsChecked(int Col, int Row)
+        {
+            if ((Col < 0) || (Col >= Width) || (Row < 0) || (Row >= Height))
+                return Checker.None;
+            return Cells[Col, Row];
+        }
+
         int CountDir(int Col, int Row, int Dir, Checker Who)
         {
-            int dX = 0;
-            int dY = 0;
-            switch (Dir)
+            int targetX = Col + _dx[Dir];
+            int targetY = Row + _dx[Dir];
+
+            int count = 0;
+            while (_boundsChecked(targetX, targetY) == Who)
             {
-                case 1: dX = -1; dY = -1; break;
-                case 2: dX = 0; dY = -1; break;
-                case 3: dX = 1; dY = -1; break;
-                case 4: dX = -1; dY = 0; break;
-                case 6: dX = 1; dY = 0; break;
-                case 7: dX = -1; dY = 1; break;
-                case 8: dX = 0; dY = 1; break;
-                case 9: dX = 1; dY = 1; break;
+                count++;
+                targetX += _dx[Dir];
+                targetY += _dy[Dir];
             }
 
-            int cx = (int)Col + dX;
-            int cy = (int)Row + dY;
-
-            if ((cx < 0) || (cx >= Width) || (cy < 0) || (cy >= Height)) return 0;
-            if (_board[cx, cy] != Who) return 0;
-            cx += dX; cy += dY;
-
-            if ((cx < 0) || (cx >= Width) || (cy < 0) || (cy >= Height)) return 1;
-            if (_board[cx, cy] != Who) return 1;
-            cx += dX; cy += dY;
-
-            if ((cx < 0) || (cx >= Width) || (cy < 0) || (cy >= Height)) return 2;
-            if (_board[cx, cy] != Who) return 2;
-
-            return 3;
+            return count;
         }
 
         Checker[,] _board;
