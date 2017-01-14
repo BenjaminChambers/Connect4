@@ -13,13 +13,11 @@ namespace Connect4
         #region Constructors    
         public Board(int Columns = 7, int Rows = 6)
         {
-            if ((Columns < 4) && (Rows < 4))
-                throw new ArgumentException("One of columns or rows must be >= 4.");
-            State = GameState.InProgress;
             Width = Columns;
             Height = Rows;
             _board = new Checker[Width, Height];
             _height = new int[Width];
+            Cells = new CellView(this);
         }
 
         public Board(Board Src)
@@ -30,6 +28,7 @@ namespace Connect4
             _height = new int[Width];
             Array.Copy(Src._board, _board, Width * Height);
             Array.Copy(Src._height, _height, Width);
+            Cells = new CellView(this);
         }
         #endregion
 
@@ -44,18 +43,7 @@ namespace Connect4
             return (_height[Col] < Height);
         }
 
-        public Checker GetCell(int Col, int Row)
-        {
-            if (Col >= Width) throw new ArgumentOutOfRangeException("Col", "Value of " + Col.ToString() + " is greater than the " + Width + " available columns.");
-            if (Row >= Height) throw new ArgumentOutOfRangeException("Row", "Value of " + Row.ToString() + " is greater than the " + Height + " available rows.");
-
-            return _board[Col, Row];
-        }
-
-        public IReadOnlyList<int> History
-        {
-            get { return _history; }
-        }
+        public readonly CellView Cells;
         #endregion
 
         #region Action
@@ -71,7 +59,7 @@ namespace Connect4
         #endregion
 
 
-        #region Private
+        #region Internal
         int CountDir(int Col, int Row, int Dir, Checker Who)
         {
             int dX = 0;
@@ -107,9 +95,23 @@ namespace Connect4
 
         Checker[,] _board;
         int[] _height;
-        List<int> _history = new List<int>();
 
-        static Random rnd = new Random();
+        public class CellView
+        {
+            readonly Board _parent;
+            public CellView(Board Parent)
+            {
+                _parent = Parent;
+            }
+
+            public Checker this[int Col, int Row]
+            {
+                get
+                {
+                    return _parent._board[Col, Row];
+                }
+            }
+        };
         #endregion
     }
 }
