@@ -6,5 +6,6 @@ using System.Threading.Tasks;
 
 namespace Connect4
 {
-    public enum Checker {None, Black, Red}
+    public enum Checker { None, Black, Red }
+    public enum GameState { InProgress, BlackWins, RedWins, Tie }
 }

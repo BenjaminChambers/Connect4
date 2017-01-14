@@ -38,8 +38,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Board.cs" />
-    <Compile Include="Checker.cs" />
-    <Compile Include="GameState.cs" />
+    <Compile Include="Enums.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
