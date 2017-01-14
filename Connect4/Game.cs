@@ -21,14 +21,30 @@ namespace Connect4
         #region Actions
         public void PlayMove(int Column)
         {
+            if (State != GameState.InProgress)
+                throw new InvalidOperationException("Game is not in progress.");
+
             if ((Column < 0) || (Column >= Width))
                 throw new ArgumentOutOfRangeException("Column");
 
+            var me = WhoseMove;
+            int y = _current.ColumnHeight(Column);
+
             _boardHistory.Add(new Board(_current));
             _moveHistory.Add(Column);
-            _current.PutChecker(Column, WhoseMove);
+            _current.PutChecker(Column, me);
 
-
+            if ((CountDir(Column, y, 1, me) + CountDir(Column, y, 9, me) + 1 >= NeededToWin)
+                || (CountDir(Column, y, 2, me) + CountDir(Column, y, 8, me) + 1 >= NeededToWin)
+                || (CountDir(Column, y, 3, me) + CountDir(Column, y, 7, me) + 1 >= NeededToWin)
+                || (CountDir(Column, y, 4, me) + CountDir(Column, y, 6, me) + 1 >= NeededToWin))
+            {
+                State = (me == Checker.Black) ? GameState.BlackWins : GameState.RedWins;
+            } else
+            {
+                if (_moveHistory.Count == Width * Height)
+                    State = GameState.Tie;
+            }
         }
         #endregion
 
