@@ -46,6 +46,21 @@ namespace Connect4
                     State = GameState.Tie;
             }
         }
+
+        public void PlayRandomMove()
+        {
+            if (State != GameState.InProgress)
+                throw new InvalidOperationException("Game is not in progress.");
+
+            var possible = new List<int>();
+            for (int i=0; i<Width; i++)
+            {
+                if (_current.IsMoveValid(i))
+                    possible.Add(i);
+            }
+
+            PlayMove(possible[rnd.Next(possible.Count)]);
+        }
         #endregion
 
         #region Info
@@ -107,6 +122,8 @@ namespace Connect4
 
             return count;
         }
+
+        static Random rnd = new Random();
         #endregion
     }
 }
