@@ -35,13 +35,16 @@ namespace Connect4
             _moveHistory.Add(Column);
             _current.PutChecker(Column, me);
 
-            if ((CountDir(Column, y, 1, me) + CountDir(Column, y, 9, me) + 1 >= NeededToWin)
-                || (CountDir(Column, y, 2, me) + CountDir(Column, y, 8, me) + 1 >= NeededToWin)
-                || (CountDir(Column, y, 3, me) + CountDir(Column, y, 7, me) + 1 >= NeededToWin)
-                || (CountDir(Column, y, 4, me) + CountDir(Column, y, 6, me) + 1 >= NeededToWin))
+            int c1 = CountDir(Column, y, 1, me) + CountDir(Column, y, 9, me) + 1;
+            int c4 = CountDir(Column, y, 4, me) + CountDir(Column, y, 6, me) + 1;
+            int c7 = CountDir(Column, y, 7, me) + CountDir(Column, y, 3, me) + 1;
+            int c2 = CountDir(Column, y, 2, me) + CountDir(Column, y, 8, me) + 1;
+
+            if ((c1 >= NeededToWin) || (c4 >= NeededToWin) || (c7 >= NeededToWin) || (c2 >= NeededToWin))
             {
                 State = (me == Checker.Black) ? GameState.BlackWins : GameState.RedWins;
-            } else
+            }
+            else
             {
                 if (_moveHistory.Count == Width * Height)
                     State = GameState.Tie;
@@ -54,7 +57,7 @@ namespace Connect4
                 throw new InvalidOperationException("Game is not in progress.");
 
             var possible = new List<int>();
-            for (int i=0; i<Width; i++)
+            for (int i = 0; i < Width; i++)
             {
                 if (_current.IsMoveValid(i))
                     possible.Add(i);
@@ -113,7 +116,7 @@ namespace Connect4
         int CountDir(int Col, int Row, int Dir, Checker Who)
         {
             int targetX = Col + _dx[Dir];
-            int targetY = Row + _dx[Dir];
+            int targetY = Row + _dy[Dir];
 
             int count = 0;
             while (_boundsChecked(targetX, targetY) == Who)
