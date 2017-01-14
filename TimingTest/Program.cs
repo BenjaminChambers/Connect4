@@ -10,7 +10,7 @@ namespace TimingTest
     {
         static void Main(string[] args)
         {
-            int w1, w2, h1, h2;
+            int w1, w2, h1, h2, run;
             bool[] smart = new bool[2];
             double time;
 
@@ -18,12 +18,13 @@ namespace TimingTest
 
             do
             {
-                Console.WriteLine("Both width and height must be positive, and one of them must be greater than 3.");
+                Console.WriteLine("Both width and height must be positive, and one of them must be greater than the run length.");
+                Console.Write("What length run is necessary to win? "); run = int.Parse(Console.ReadLine());
                 Console.Write("What is the minimum board width? "); w1 = int.Parse(Console.ReadLine());
                 Console.Write("What is the maximum board width? "); w2 = int.Parse(Console.ReadLine());
                 Console.Write("What is the minimum board height? "); h1 = int.Parse(Console.ReadLine());
                 Console.Write("What is the maximum board height? "); h2 = int.Parse(Console.ReadLine());
-            } while ((w1 < 0) || (w2 < 0) || (h1 < 0) || (h2 < 0) || ((w1 < 4) && (h1 < 4)));
+            } while ((w1 < 0) || (w2 < 0) || (h1 < 0) || (h2 < 0) || ((w1 < run) && (h1 < run)));
 
             if (w2 < w1)
             {
@@ -36,12 +37,14 @@ namespace TimingTest
                 Console.WriteLine("Maximum height chosen was less than the minimum height. Setting maximum equal to mimum (one test size.");
             }
 
+            /*
             Console.Write("Should the first player make a winning move if it sees it? (No means it will play completely randomly) ");
             string s = Console.ReadLine();
             smart[0] = (s[0] == 'y') || (s[0] == 'Y');
             Console.Write("Should the second player make a winning move if it sees it? ");
             s = Console.ReadLine();
             smart[1] = (s[0] == 'y') || (s[0] == 'Y');
+            */
 
             Console.Write("How many seconds should each board size be tested for? (floating point value) ");
             time = double.Parse(Console.ReadLine());
@@ -56,13 +59,17 @@ namespace TimingTest
                     var Start = DateTime.Now;
                     do
                     {
-                        var game = new Connect4.Board(w, h);
+                        var game = new Connect4.Game(w, h, run);
+
                         while (game.State == Connect4.GameState.InProgress)
                         {
+                            game.PlayRandomMove();
+                            /*
                             if (smart[game.WhoseMove == Connect4.Checker.Black ? 0 : 1])
                                 game.PlayRandomWinningMove();
                             else
                                 game.PlayRandomMove();
+                            */
                         }
                         count++;
                         switch (game.State)
@@ -72,9 +79,9 @@ namespace TimingTest
                             case Connect4.GameState.Tie: t++; break;
                         }
                     } while ((DateTime.Now - Start).TotalSeconds < time);
-                    Console.WriteLine("Playing on a " + w + "x" + h + " board, " + (int)((double)count / time) + " games per second."
-                        + "\tBlack / Red / Tie: " + b * 100 / count + "% / " + r * 100 / count + "% / " + t * 100 / count + "%"
-                        + "\tFirst move advantage: {0:0.000}", (r > 0) ? (double)b / (double)r : 0);
+                    Console.Write("Playing on a {0}x{1} board, requiring {2} in a row to win. {3:N0} games per second.", w, h, run, (int)((double)count / time));
+                    Console.Write("\tBlack: {0:N2}% \tRed: {1:N2}% \tTie: {2:N2}%", (b * 100.0) / count, (r * 100.0) / count, (t * 100.0) / count);
+                    Console.WriteLine("\t First move advantage: {0:N2}", (r > 0) ? (double)b / (double)r : 0);
                 }
             }
         }
