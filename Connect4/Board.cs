@@ -35,6 +35,11 @@ namespace Connect4
             return (_height[Col] < Height);
         }
 
+        public int ColumnHeight(int Column)
+        {
+            return _height[Column];
+        }
+
         public readonly CellView Cells;
         #endregion
 
