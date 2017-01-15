@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 namespace Connect4
 {
-    public class Board
+    public class Board : IEnumerable
     {
         #region Constructors    
         public Board(int Columns = 7, int Rows = 6)
@@ -57,6 +58,16 @@ namespace Connect4
 
             _board[Col, _height[Col]] = Color;
             _height[Col]++;
+        }
+
+        public IEnumerator GetEnumerator()
+        {
+            return _board.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            throw new NotImplementedException();
         }
         #endregion
 
