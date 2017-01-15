@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Connect4
 {
-    public class HistoryItem
+    public class Snapshot
     {
-        public HistoryItem(Board brd, GameState st, int move)
+        public Snapshot(Board brd, GameState st, int move)
         {
             GameBoard = new Board(brd);
             State = st;

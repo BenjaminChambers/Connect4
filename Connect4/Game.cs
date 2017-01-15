@@ -30,7 +30,7 @@ namespace Connect4
             var me = WhoseMove;
             int y = _current.ColumnHeight(Column);
 
-            _history.Add(new HistoryItem(_current, State, Column));
+            _history.Add(new Snapshot(_current, State, Column));
             _current.PutChecker(Column, me);
 
             int c1 = CountDir(Column, y, 1, me) + CountDir(Column, y, 9, me) + 1;
@@ -85,7 +85,7 @@ namespace Connect4
         {
             get { return _history.Count % 2 == 0 ? Checker.Black : Checker.Red; }
         }
-        public IReadOnlyList<HistoryItem> History
+        public IReadOnlyList<Snapshot> History
         {
             get { return _history; }
         }
@@ -104,7 +104,7 @@ namespace Connect4
 
         #region Internal
         Board _current;
-        List<HistoryItem> _history = new List<HistoryItem>();
+        List<Snapshot> _history = new List<Snapshot>();
 
 
         static readonly int[] _dx = { 0, -1, 0, 1, -1, 0, 1, -1, 0, 1 };
