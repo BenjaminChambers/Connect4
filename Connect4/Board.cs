@@ -62,12 +62,12 @@ namespace Connect4
 
         public IEnumerator<Checker> GetEnumerator()
         {
-            return (IEnumerator<Checker>)_board.GetEnumerator();
+            foreach (var c in _board)
+                yield return c;
         }
-
         IEnumerator IEnumerable.GetEnumerator()
         {
-            throw new NotImplementedException();
+            return GetEnumerator();
         }
         #endregion
 
