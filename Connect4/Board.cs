@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Connect4
 {
-    public class Board : IEnumerable
+    public class Board : IEnumerable<Checker>
     {
         #region Constructors    
         public Board(int Columns = 7, int Rows = 6)
@@ -60,9 +60,9 @@ namespace Connect4
             _height[Col]++;
         }
 
-        public IEnumerator GetEnumerator()
+        public IEnumerator<Checker> GetEnumerator()
         {
-            return _board.GetEnumerator();
+            return (IEnumerator<Checker>)_board.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
