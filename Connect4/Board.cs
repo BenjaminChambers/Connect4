@@ -14,7 +14,6 @@ namespace Connect4
             Height = Rows;
             _board = new Checker[Width, Height];
             _height = new int[Width];
-            Cells = new CellView(this);
         }
 
         public Board(Board Src) : this(Src.Width, Src.Height)
@@ -40,7 +39,13 @@ namespace Connect4
             return _height[Column];
         }
 
-        public readonly CellView Cells;
+        public Checker this[int Col, int Row]
+        {
+            get
+            {
+                return _board[Col, Row];
+            }
+        }
         #endregion
 
         #region Action
@@ -59,23 +64,6 @@ namespace Connect4
         #region Internal
         Checker[,] _board;
         int[] _height;
-
-        public class CellView
-        {
-            readonly Board _parent;
-            public CellView(Board Parent)
-            {
-                _parent = Parent;
-            }
-
-            public Checker this[int Col, int Row]
-            {
-                get
-                {
-                    return _parent._board[Col, Row];
-                }
-            }
-        };
         #endregion
     }
 }

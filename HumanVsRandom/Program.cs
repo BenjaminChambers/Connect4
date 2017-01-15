@@ -14,7 +14,7 @@ namespace HumanVsRandom
             {
                 for (int col=0; col<game.Width; col++)
                 {
-                    switch(game.Board[col,row])
+                    switch(game.Current[col,row])
                     {
                         case Connect4.Checker.Black: Console.Write("|-"); break;
                         case Connect4.Checker.Red: Console.Write("|*"); break;

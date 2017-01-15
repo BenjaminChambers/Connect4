@@ -112,7 +112,7 @@ namespace Connect4
         {
             if ((Col < 0) || (Col >= Width) || (Row < 0) || (Row >= Height))
                 return Checker.None;
-            return _current.Cells[Col, Row];
+            return _current[Col, Row];
         }
 
         int CountDir(int Col, int Row, int Dir, Checker Who)
