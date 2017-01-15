@@ -15,6 +15,8 @@ namespace Connect4
             SelectedMove = move;
         }
 
+        // This is a snapshot of the current state of the board, and the move that resulted from it
+
         public readonly Board GameBoard;
         public readonly GameState State;
         public readonly int SelectedMove;

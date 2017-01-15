@@ -30,8 +30,7 @@ namespace Connect4
             var me = WhoseMove;
             int y = _current.ColumnHeight(Column);
 
-            _boardHistory.Add(new Board(_current));
-            _moveHistory.Add(Column);
+            _history.Add(new HistoryItem(_current, State, Column));
             _current.PutChecker(Column, me);
 
             int c1 = CountDir(Column, y, 1, me) + CountDir(Column, y, 9, me) + 1;
@@ -45,7 +44,7 @@ namespace Connect4
             }
             else
             {
-                if (_moveHistory.Count == Width * Height)
+                if (_history.Count == Width * Height)
                     State = GameState.Tie;
             }
         }
@@ -84,7 +83,11 @@ namespace Connect4
         }
         public Checker WhoseMove
         {
-            get { return _moveHistory.Count % 2 == 0 ? Checker.Black : Checker.Red; }
+            get { return _history.Count % 2 == 0 ? Checker.Black : Checker.Red; }
+        }
+        public IReadOnlyList<HistoryItem> History
+        {
+            get { return _history; }
         }
 
         public GameState State
@@ -101,8 +104,7 @@ namespace Connect4
 
         #region Internal
         Board _current;
-        List<int> _moveHistory = new List<int>();
-        List<Board> _boardHistory = new List<Board>();
+        List<HistoryItem> _history = new List<HistoryItem>();
 
 
         static readonly int[] _dx = { 0, -1, 0, 1, -1, 0, 1, -1, 0, 1 };
