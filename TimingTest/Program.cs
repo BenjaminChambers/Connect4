@@ -64,12 +64,37 @@ namespace TimingTest
                         while (game.State == Connect4.GameState.InProgress)
                         {
                             game.PlayRandomMove();
-                            /*
-                            if (smart[game.WhoseMove == Connect4.Checker.Black ? 0 : 1])
-                                game.PlayRandomWinningMove();
-                            else
-                                game.PlayRandomMove();
-                            */
+                        }
+                        count++;
+                        switch (game.State)
+                        {
+                            case Connect4.GameState.BlackWins: b++; break;
+                            case Connect4.GameState.RedWins: r++; break;
+                            case Connect4.GameState.Tie: t++; break;
+                        }
+                    } while ((DateTime.Now - Start).TotalSeconds < time);
+                    Console.Write("Playing on a {0}x{1} board, requiring {2} in a row to win. {3:N0} games per second.", w, h, run, (int)((double)count / time));
+                    Console.Write("\tBlack: {0:N2}% \tRed: {1:N2}% \tTie: {2:N2}%", (b * 100.0) / count, (r * 100.0) / count, (t * 100.0) / count);
+                    Console.WriteLine("\t First move advantage: {0:N2}", (r > 0) ? (double)b / (double)r : 0);
+                }
+            }
+
+            Console.WriteLine();
+            Console.WriteLine("Performing the same test again, this time with Winning Move recognition.");
+            for (int w = w1; w <= w2; w++)
+            {
+                for (int h = h1; h <= h2; h++)
+                {
+                    int count = 0;
+                    int b = 0, r = 0, t = 0;
+                    var Start = DateTime.Now;
+                    do
+                    {
+                        var game = new Connect4.Game(w, h, run);
+
+                        while (game.State == Connect4.GameState.InProgress)
+                        {
+                            game.PlayRandomWinningMove();
                         }
                         count++;
                         switch (game.State)
