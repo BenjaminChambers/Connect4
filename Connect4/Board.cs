@@ -47,6 +47,25 @@ namespace Connect4
                 return _board[Col, Row];
             }
         }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            for (int row=Height-1; row>=0; row--)
+            {
+                for (int col=0; col<Width; col++)
+                {
+                    switch (this[col,row])
+                    {
+                        case Checker.Black: sb.Append("*"); break;
+                        case Checker.Red: sb.Append("-"); break;
+                        case Checker.None: sb.Append(" "); break;
+                    }
+                    sb.Append("\n");
+                }
+            }
+            return sb.ToString();
+        }
         #endregion
 
         #region Action
