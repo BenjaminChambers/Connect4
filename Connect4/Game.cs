@@ -36,7 +36,6 @@ namespace Connect4
             int c1 = CountDir(Column, y, 1, me) + CountDir(Column, y, 9, me) + 1;
             int c4 = CountDir(Column, y, 4, me) + CountDir(Column, y, 6, me) + 1;
             int c7 = CountDir(Column, y, 7, me) + CountDir(Column, y, 3, me) + 1;
-            // int c2 = CountDir(Column, y, 2, me) + CountDir(Column, y, 8, me) + 1;
             int c2 = CountDir(Column, y, 2, me) + 1;
 
             if ((c1 >= NeededToWin) || (c4 >= NeededToWin) || (c7 >= NeededToWin) || (c2 >= NeededToWin))
