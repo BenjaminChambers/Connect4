@@ -64,6 +64,40 @@ namespace Connect4
 
             PlayMove(possible[rnd.Next(possible.Count)]);
         }
+
+        public void PlayRandomWinningMove()
+        {
+            if (State != GameState.InProgress)
+                throw new InvalidOperationException("Game is not in progress.");
+
+            var possible = new List<int>();
+            for (int i = 0; i < Width; i++)
+            {
+                if (_current.IsMoveValid(i))
+                    possible.Add(i);
+            }
+
+            var me = WhoseMove;
+            int selection = -1;
+            foreach (var choice in possible)
+            {
+                var y = _current.ColumnHeight(choice);
+                int c1 = CountDir(choice, y, 1, me) + CountDir(choice, y, 9, me) + 1;
+                int c4 = CountDir(choice, y, 4, me) + CountDir(choice, y, 6, me) + 1;
+                int c7 = CountDir(choice, y, 7, me) + CountDir(choice, y, 3, me) + 1;
+                int c2 = CountDir(choice, y, 2, me) + 1;
+
+                if ((c1 >= NeededToWin) || (c4 >= NeededToWin) || (c7 >= NeededToWin) || (c2 >= NeededToWin))
+                {
+                    selection = choice;
+                    break;
+                }
+            }
+            if (selection == -1)
+                PlayMove(possible[rnd.Next(possible.Count)]);
+            else
+                PlayMove(selection);
+        }
         #endregion
 
         #region Info
