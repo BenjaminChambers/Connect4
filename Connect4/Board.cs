@@ -6,9 +6,17 @@ using System.Text;
 
 namespace Connect4
 {
+    /// <summary>
+    /// Basic class representing the gameboard at a given point in time
+    /// </summary>
     public class Board : IEnumerable<Checker>
     {
-        #region Constructors    
+        #region Constructors
+        /// <summary>
+        /// Default constructor, with options for how large it is
+        /// </summary>
+        /// <param name="Columns">How wide the board should be, defaulting to 7</param>
+        /// <param name="Rows">How tall the board should be, defaulting to 6</param>
         public Board(int Columns = 7, int Rows = 6)
         {
             Width = Columns;
@@ -17,6 +25,10 @@ namespace Connect4
             _height = new int[Width];
         }
 
+        /// <summary>
+        /// Copy constructor
+        /// </summary>
+        /// <param name="Src">The <see cref="Board"/> to copy</param>
         public Board(Board Src) : this(Src.Width, Src.Height)
         {
             Array.Copy(Src._board, _board, Width * Height);
@@ -25,9 +37,20 @@ namespace Connect4
         #endregion
 
         #region Information
+        /// <summary>
+        /// How many columns wide the <see cref="Board"/> is 
+        /// </summary>
         public int Width { get; private set; }
+        /// <summary>
+        /// How many rows high the <see cref="Board"/> is 
+        /// </summary>
         public int Height { get; private set; }
 
+        /// <summary>
+        /// Checks if you are able to place a piece in the given column
+        /// </summary>
+        /// <param name="Col">The column to check. The left-most column is 0, the right-most is Width-1</param>
+        /// <returns>True if a piece may be placed there, or False</returns>
         public bool IsMoveValid(int Col)
         {
             if ((Col < 0) || (Col >= Width))
@@ -35,11 +58,22 @@ namespace Connect4
             return (_height[Col] < Height);
         }
 
+        /// <summary>
+        /// Returns how many pieces are currently in a column. When the column is full, no more pieces may be placed there
+        /// </summary>
+        /// <param name="Column">The column to check. The left-most column is 0, the right-most is Width-1</param>
+        /// <returns>Returns the number of pieces already in that column</returns>
         public int ColumnHeight(int Column)
         {
             return _height[Column];
         }
 
+        /// <summary>
+        /// Array-based accessor for the underlying data. Performs range checking
+        /// </summary>
+        /// <param name="Col">The column to check. The left-most column is 0, the right-most is Width-1</param>
+        /// <param name="Row">The row to check. The bottom row is 0, the top row is Height-1</param>
+        /// <returns>A <see cref="Checker"/> representing the contents of the given location</returns>
         public Checker this[int Col, int Row]
         {
             get
@@ -48,6 +82,10 @@ namespace Connect4
             }
         }
 
+        /// <summary>
+        /// Extremely basic method which returns several text lines representing the contents of the <see cref="Board"/>. 
+        /// </summary>
+        /// <returns><see cref="string"/> </returns>
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
