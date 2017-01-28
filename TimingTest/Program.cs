@@ -94,7 +94,25 @@ namespace TimingTest
 
                         while (game.State == Connect4.GameState.InProgress)
                         {
-                            game.PlayRandomWinningMove();
+                            List<int> winning, blocking;
+                            if (game.WhoseMove==Connect4.Checker.Black)
+                            {
+                                winning = game.GetWinningMoves(Connect4.Checker.Black);
+                                blocking = game.GetWinningMoves(Connect4.Checker.Red);
+                            } else
+                            {
+                                winning = game.GetWinningMoves(Connect4.Checker.Red);
+                                blocking = game.GetWinningMoves(Connect4.Checker.Black);
+                            }
+                            if (winning.Count > 0)
+                                game.PlayRandomMove(winning);
+                            else
+                            {
+                                if (blocking.Count > 0)
+                                    game.PlayRandomMove(blocking);
+                                else
+                                    game.PlayRandomMove();
+                            }
                         }
                         count++;
                         switch (game.State)
