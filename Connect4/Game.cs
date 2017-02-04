@@ -119,21 +119,33 @@ namespace Connect4
         #endregion
 
         #region Info
+        /// <summary>
+        /// How many columns wide the board is
+        /// </summary>
         public int Width
         {
             get;
             private set;
         }
+        /// <summary>
+        /// How many rows high the board is
+        /// </summary>
         public int Height
         {
             get;
             private set;
         }
+        /// <summary>
+        /// What run length is needed to win
+        /// </summary>
         public int NeededToWin
         {
             get;
             private set;
         }
+        /// <summary>
+        /// Who's move it is. Black has first move.
+        /// </summary>
         public Checker WhoseMove
         {
             get { return _history.Count % 2 == 0 ? Checker.Black : Checker.Red; }
