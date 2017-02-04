@@ -6,9 +6,18 @@ using System.Threading.Tasks;
 
 namespace Connect4
 {
+    /// <summary>
+    /// Class representing the state of a game as it is played
+    /// </summary>
     public class Game
     {
         #region Constructors
+        /// <summary>
+        /// Basic constructor. Retail versions of Connect 4 are 7x6, and require 4 in a row to win.
+        /// </summary>
+        /// <param name="nColumns">How many columns wide the game should be.</param>
+        /// <param name="nRows">How many rows high the game should be.</param>
+        /// <param name="LengthNeededToWin">What run length is needed to win.</param>
         public Game(int nColumns, int nRows, int LengthNeededToWin)
         {
             Width = nColumns;
