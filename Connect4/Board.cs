@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,209 +7,140 @@ using System.Text;
 namespace Connect4
 {
     /// <summary>
-    /// Main board class.
+    /// Basic class representing the gameboard at a given point in time
     /// </summary>
-    public class Board
+    public class Board : IEnumerable<Checker>
     {
-        #region Constructors    
+        #region Constructors
         /// <summary>
-        /// Initializes an empty board
+        /// Default constructor, with options for how large it is
         /// </summary>
-        /// <param name="Columns">The number of Columns, defaults to 7</param>
-        /// <param name="Rows">The number of Rows, defaults to 6</param>
-        public Board(uint Columns = 7, uint Rows = 6)
+        /// <param name="Columns">How wide the board should be, defaulting to 7</param>
+        /// <param name="Rows">How tall the board should be, defaulting to 6</param>
+        public Board(int Columns = 7, int Rows = 6)
         {
-            if ((Columns < 4) && (Rows < 4))
-                throw new ArgumentException("One of columns or rows must be >= 4.");
-            State = GameState.InProgress;
             Width = Columns;
             Height = Rows;
             _board = new Checker[Width, Height];
-            _height = new uint[Width];
+            _height = new int[Width];
         }
+
         /// <summary>
-        /// Copies an existing board, including all state information
+        /// Copy constructor
         /// </summary>
-        /// <param name="Src">The board to copy</param>
-        public Board(Board Src)
+        /// <param name="Src">The <see cref="Board"/> to copy</param>
+        public Board(Board Src) : this(Src.Width, Src.Height)
         {
-            Width = Src.Width;
-            Height = Src.Height;
-            _board = new Checker[Width, Height];
-            _height = new uint[Width];
-            Array.Copy(Src._board, _board, (int)(Width * Height));
-            Array.Copy(Src._height, _height, (int)Width);
-            State = Src.State;
+            Array.Copy(Src._board, _board, Width * Height);
+            Array.Copy(Src._height, _height, Width);
         }
         #endregion
 
         #region Information
         /// <summary>
-        /// Indicates either Black or Red. Black has first move.
+        /// How many columns wide the <see cref="Board"/> is 
         /// </summary>
-        public Checker WhoseMove
+        public int Width { get; private set; }
+        /// <summary>
+        /// How many rows high the <see cref="Board"/> is 
+        /// </summary>
+        public int Height { get; private set; }
+
+        /// <summary>
+        /// Checks if you are able to place a piece in the given column
+        /// </summary>
+        /// <param name="Col">The column to check. The left-most column is 0, the right-most is Width-1</param>
+        /// <returns>True if a piece may be placed there, or False</returns>
+        public bool IsMoveValid(int Col)
+        {
+            if ((Col < 0) || (Col >= Width))
+                throw new ArgumentOutOfRangeException("Col", "Value of " + Col.ToString() + " is greater than the " + Width + " available columns.");
+            return (_height[Col] < Height);
+        }
+
+        /// <summary>
+        /// Returns how many pieces are currently in a column. When the column is full, no more pieces may be placed there
+        /// </summary>
+        /// <param name="Column">The column to check. The left-most column is 0, the right-most is Width-1</param>
+        /// <returns>Returns the number of pieces already in that column</returns>
+        public int ColumnHeight(int Column)
+        {
+            return _height[Column];
+        }
+
+        /// <summary>
+        /// Array-based accessor for the underlying data. Performs range checking
+        /// </summary>
+        /// <param name="Col">The column to check. The left-most column is 0, the right-most is Width-1</param>
+        /// <param name="Row">The row to check. The bottom row is 0, the top row is Height-1</param>
+        /// <returns>A <see cref="Checker"/> representing the contents of the given location</returns>
+        public Checker this[int Col, int Row]
         {
             get
             {
-                return (_history.Count() % 2 == 0) ? Checker.Black : Checker.Red;
+                return _board[Col, Row];
             }
         }
-        public uint Width { get; private set; }
-        public uint Height { get; private set; }
-        /// <summary>
-        /// Returns the state of the current board
-        /// </summary>
-        public GameState State
-        {
-            get;
-            private set;
-        }
-        /// <summary>
-        /// Checks if a specific move is valid
-        /// </summary>
-        /// <param name="Col">The column to check</param>
-        /// <returns>Returns false if that column is full, or true if there is room available</returns>
-        public bool IsMoveValid(uint Col)
-        {
-            if (Col >= Width) throw new ArgumentOutOfRangeException("Col", "Value of " + Col.ToString() + " is greater than the " + Width + " available columns.");
-            return (_height[Col] < Height);
-        }
-        /// <summary>
-        /// Checks a specific location on the board.
-        /// </summary>
-        /// <param name="Col">The column to check.</param>
-        /// <param name="Row">The row to check.</param>
-        /// <returns>Throws an <see cref="ArgumentOutOfRangeException"/> if necessary, otherwise returns a <see cref="Checker"/></returns>
-        public Checker GetCell(uint Col, uint Row)
-        {
-            if (Col >= Width) throw new ArgumentOutOfRangeException("Col", "Value of " + Col.ToString() + " is greater than the " + Width + " available columns.");
-            if (Row >= Height) throw new ArgumentOutOfRangeException("Row", "Value of " + Row.ToString() + " is greater than the " + Height + " available rows.");
 
-            return _board[Col, Row];
-        }
         /// <summary>
-        /// A list of moves played so far
+        /// Extremely basic method which returns several text lines representing the contents of the <see cref="Board"/>. 
         /// </summary>
-        public IReadOnlyList<uint> History
+        /// <returns><see cref="string"/> </returns>
+        public override string ToString()
         {
-            get { return _history; }
+            StringBuilder sb = new StringBuilder();
+            for (int row=Height-1; row>=0; row--)
+            {
+                for (int col=0; col<Width; col++)
+                {
+                    switch (this[col,row])
+                    {
+                        case Checker.Black: sb.Append("*"); break;
+                        case Checker.Red: sb.Append("-"); break;
+                        case Checker.None: sb.Append(" "); break;
+                    }
+                    sb.Append("\n");
+                }
+            }
+            return sb.ToString();
         }
         #endregion
 
         #region Action
         /// <summary>
-        /// Plays a move, if possible, and sets the resulting State variable to Black/Red Wins, Tie, or InProgress
+        /// Drops a checker in the given column, placing it as low as possible above the checkers already there
         /// </summary>
-        /// <param name="Col">The column to drop a checker in</param>
-        public void PlayMove(uint Col)
+        /// <param name="Column">The column to place it in</param>
+        /// <param name="Color">The color to place</param>
+        public void PutChecker(int Column, Checker Color)
         {
-            if (State != GameState.InProgress) throw new InvalidOperationException("Game is already finished. Current state: " + State.ToString());
-            if (Col >= Width) throw new ArgumentOutOfRangeException("Col", "Value of " + Col.ToString() + " is greater than the " + Width + " available columns.");
-            if (_height[Col] >= Height) throw new InvalidOperationException("Column " + Col.ToString() + " is already full.");
+            if ((Column < 0) || (Column >= Width)) throw new ArgumentOutOfRangeException("Col");
+            if (Color == Checker.None) throw new InvalidOperationException("Color cannot be Checker.None");
+            if (_height[Column] >= Height) throw new InvalidOperationException("Column " + Column.ToString() + " is already full.");
 
-            uint x = Col;
-            uint y = _height[Col];
-            var me = WhoseMove;
-
-            _board[x, y] = me;
-            _height[x]++;
-            _history.Add(x);
-
-            if (((CountDir(x, y, 1, me) + CountDir(x, y, 9, me)) > 3)
-                || ((CountDir(x, y, 2, me) + CountDir(x, y, 8, me)) > 3)
-                || ((CountDir(x, y, 3, me) + CountDir(x, y, 7, me)) > 3)
-                || ((CountDir(x, y, 4, me) + CountDir(x, y, 6, me)) > 3))
-                State = (me == Checker.Black) ? GameState.BlackWins : GameState.RedWins;
-            else
-            {
-                if (_history.Count() == Width*Height)
-                    State = GameState.Tie;
-                else
-                    State = GameState.InProgress;
-            }
+            _board[Column, _height[Column]] = Color;
+            _height[Column]++;
         }
-        /// <summary>
-        /// Makes a random move for the current player.
-        /// </summary>
-        public void PlayRandomMove()
-        {
-            if (State != GameState.InProgress) throw new InvalidOperationException("Game is already finished. Current state: " + State.ToString());
 
-            List<uint> possible = new List<uint>();
-            for (uint c = 0; c < Width; c++)
-                if (IsMoveValid(c))
-                    possible.Add(c);
-            PlayMove(possible[rnd.Next(possible.Count())]);
+        /// <summary>
+        /// Enables iteration over the board
+        /// </summary>
+        /// <returns>A collection of <see cref="Checker"/>s </returns>
+        public IEnumerator<Checker> GetEnumerator()
+        {
+            foreach (var c in _board)
+                yield return c;
         }
-        /// <summary>
-        /// First checks for a winning move and, if available, makes it.
-        /// Otherwise, plays a random move.
-        /// </summary>
-        public void PlayRandomWinningMove()
+        IEnumerator IEnumerable.GetEnumerator()
         {
-            if (State != GameState.InProgress) throw new InvalidOperationException("Game is already finished. Current state: " + State.ToString());
-
-            List<uint> possible = new List<uint>();
-            for (uint c = 0; c < Width; c++)
-                if (IsMoveValid(c))
-                    possible.Add(c);
-
-            var me = (WhoseMove==Checker.Black)?GameState.BlackWins:GameState.RedWins;
-            foreach (var m in possible)
-            {
-                Board b = new Board(this);
-                b.PlayMove(m);
-                if (b.State==me)
-                {
-                    PlayMove(m);
-                    return;
-                }
-            }
-
-            PlayMove(possible[rnd.Next(possible.Count())]);
+            return GetEnumerator();
         }
         #endregion
 
 
-        #region Private
-        uint CountDir(uint Col, uint Row, uint Dir, Checker Who)
-        {
-            int dX = 0;
-            int dY = 0;
-            switch (Dir)
-            {
-                case 1: dX = -1; dY = -1; break;
-                case 2: dX = 0; dY = -1; break;
-                case 3: dX = 1; dY = -1; break;
-                case 4: dX = -1; dY = 0; break;
-                case 6: dX = 1; dY = 0; break;
-                case 7: dX = -1; dY = 1; break;
-                case 8: dX = 0; dY = 1; break;
-                case 9: dX = 1; dY = 1; break;
-            }
-
-            int cx = (int)Col + dX;
-            int cy = (int)Row + dY;
-
-            if ((cx < 0) || (cx >= Width) || (cy < 0) || (cy >= Height)) return 0;
-            if (_board[cx, cy] != Who) return 0;
-            cx += dX; cy += dY;
-
-            if ((cx < 0) || (cx >= Width) || (cy < 0) || (cy >= Height)) return 1;
-            if (_board[cx, cy] != Who) return 1;
-            cx += dX; cy += dY;
-
-            if ((cx < 0) || (cx >= Width) || (cy < 0) || (cy >= Height)) return 2;
-            if (_board[cx, cy] != Who) return 2;
-
-            return 3;
-        }
-
+        #region Internal
         Checker[,] _board;
-        uint[] _height;
-        List<uint> _history = new List<uint>();
-
-        static Random rnd = new Random();
+        int[] _height;
         #endregion
     }
 }
