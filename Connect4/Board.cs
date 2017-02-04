@@ -107,16 +107,25 @@ namespace Connect4
         #endregion
 
         #region Action
-        public void PutChecker(int Col, Checker Color)
+        /// <summary>
+        /// Drops a checker in the given column, placing it as low as possible above the checkers already there
+        /// </summary>
+        /// <param name="Column">The column to place it in</param>
+        /// <param name="Color">The color to place</param>
+        public void PutChecker(int Column, Checker Color)
         {
-            if ((Col < 0) || (Col >= Width)) throw new ArgumentOutOfRangeException("Col");
+            if ((Column < 0) || (Column >= Width)) throw new ArgumentOutOfRangeException("Col");
             if (Color == Checker.None) throw new InvalidOperationException("Color cannot be Checker.None");
-            if (_height[Col] >= Height) throw new InvalidOperationException("Column " + Col.ToString() + " is already full.");
+            if (_height[Column] >= Height) throw new InvalidOperationException("Column " + Column.ToString() + " is already full.");
 
-            _board[Col, _height[Col]] = Color;
-            _height[Col]++;
+            _board[Column, _height[Column]] = Color;
+            _height[Column]++;
         }
 
+        /// <summary>
+        /// Enables iteration over the board
+        /// </summary>
+        /// <returns>A collection of <see cref="Checker"/>s </returns>
         public IEnumerator<Checker> GetEnumerator()
         {
             foreach (var c in _board)
