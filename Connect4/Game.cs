@@ -150,17 +150,26 @@ namespace Connect4
         {
             get { return _history.Count % 2 == 0 ? Checker.Black : Checker.Red; }
         }
+        /// <summary>
+        /// Returns a read only list of the game state
+        /// </summary>
         public IReadOnlyList<Snapshot> History
         {
             get { return _history; }
         }
 
+        /// <summary>
+        /// The current state of the game
+        /// </summary>
         public GameState State
         {
             get;
             private set;
         }
 
+        /// <summary>
+        /// The current underlying <see cref="Board"/> 
+        /// </summary>
         public Board Current
         {
             get { return new Board(_current); }
