@@ -28,6 +28,10 @@ namespace Connect4
         #endregion
 
         #region Actions
+        /// <summary>
+        /// Places a <see cref="Checker"/> with the current player's color in the specified column, or throws an exception if the column is full 
+        /// </summary>
+        /// <param name="Column">Which column to play in</param>
         public void PlayMove(int Column)
         {
             if (State != GameState.InProgress)
@@ -58,6 +62,11 @@ namespace Connect4
             }
         }
 
+        /// <summary>
+        /// Returns a list of winning moves for the specified player
+        /// </summary>
+        /// <param name="Player">Which player to check for</param>
+        /// <returns>a <see cref="List{Int}"/> </returns>
         public List<int> GetWinningMoves(Checker Player)
         {
             var result = new List<int>();
@@ -79,6 +88,9 @@ namespace Connect4
             return result;
         }
 
+        /// <summary>
+        /// Places a checker of the current player's color in a randomly available column.
+        /// </summary>
         public void PlayRandomMove()
         {
             if (State != GameState.InProgress)
@@ -93,6 +105,10 @@ namespace Connect4
 
             PlayMove(possible[rnd.Next(possible.Count)]);
         }
+        /// <summary>
+        /// Places a checker of the current player's color in a column randomly selected from the supplied list
+        /// </summary>
+        /// <param name="PossibleMoves">A list of possible columns</param>
         public void PlayRandomMove(List<int> PossibleMoves)
         {
             if (PossibleMoves.Count == 0)
