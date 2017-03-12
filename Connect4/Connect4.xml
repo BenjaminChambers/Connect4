@@ -1,0 +1,204 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Connect4</name>
+    </assembly>
+    <members>
+        <member name="T:Connect4.Board">
+            <summary>
+            Basic class representing the gameboard at a given point in time
+            </summary>
+        </member>
+        <member name="M:Connect4.Board.#ctor(System.Int32,System.Int32)">
+            <summary>
+            Default constructor, with options for how large it is
+            </summary>
+            <param name="Columns">How wide the board should be, defaulting to 7</param>
+            <param name="Rows">How tall the board should be, defaulting to 6</param>
+        </member>
+        <member name="M:Connect4.Board.#ctor(Connect4.Board)">
+            <summary>
+            Copy constructor
+            </summary>
+            <param name="Src">The <see cref="T:Connect4.Board"/> to copy</param>
+        </member>
+        <member name="P:Connect4.Board.Width">
+            <summary>
+            How many columns wide the <see cref="T:Connect4.Board"/> is 
+            </summary>
+        </member>
+        <member name="P:Connect4.Board.Height">
+            <summary>
+            How many rows high the <see cref="T:Connect4.Board"/> is 
+            </summary>
+        </member>
+        <member name="M:Connect4.Board.IsMoveValid(System.Int32)">
+            <summary>
+            Checks if you are able to place a piece in the given column
+            </summary>
+            <param name="Col">The column to check. The left-most column is 0, the right-most is Width-1</param>
+            <returns>True if a piece may be placed there, or False</returns>
+        </member>
+        <member name="M:Connect4.Board.ColumnHeight(System.Int32)">
+            <summary>
+            Returns how many pieces are currently in a column. When the column is full, no more pieces may be placed there
+            </summary>
+            <param name="Column">The column to check. The left-most column is 0, the right-most is Width-1</param>
+            <returns>Returns the number of pieces already in that column</returns>
+        </member>
+        <member name="P:Connect4.Board.Item(System.Int32,System.Int32)">
+            <summary>
+            Array-based accessor for the underlying data. Performs range checking
+            </summary>
+            <param name="Col">The column to check. The left-most column is 0, the right-most is Width-1</param>
+            <param name="Row">The row to check. The bottom row is 0, the top row is Height-1</param>
+            <returns>A <see cref="T:Connect4.Checker"/> representing the contents of the given location</returns>
+        </member>
+        <member name="M:Connect4.Board.ToString">
+            <summary>
+            Extremely basic method which returns several text lines representing the contents of the <see cref="T:Connect4.Board"/>. 
+            </summary>
+            <returns><see cref="T:System.String"/> </returns>
+        </member>
+        <member name="M:Connect4.Board.PutChecker(System.Int32,Connect4.Checker)">
+            <summary>
+            Drops a checker in the given column, placing it as low as possible above the checkers already there
+            </summary>
+            <param name="Column">The column to place it in</param>
+            <param name="Color">The color to place</param>
+        </member>
+        <member name="M:Connect4.Board.GetEnumerator">
+            <summary>
+            Enables iteration over the board
+            </summary>
+            <returns>A collection of <see cref="T:Connect4.Checker"/>s </returns>
+        </member>
+        <member name="T:Connect4.Checker">
+            <summary>
+            Represents a piece which has been placed on a <see cref="T:Connect4.Board"/> 
+            </summary>
+        </member>
+        <member name="F:Connect4.Checker.None">
+            <summary>Represents an empty space</summary>
+        </member>
+        <member name="F:Connect4.Checker.Black">
+            <summary>Represents a black piece. Black has first move.</summary>
+        </member>
+        <member name="F:Connect4.Checker.Red">
+            <summary>Represents a red piece. Red moves second.</summary>
+        </member>
+        <member name="T:Connect4.GameState">
+            <summary>
+            Represents the current state of a <see cref="T:Connect4.Game"/> 
+            </summary>
+        </member>
+        <member name="F:Connect4.GameState.InProgress">
+            <summary>The game is currently being played</summary>
+        </member>
+        <member name="F:Connect4.GameState.BlackWins">
+            <summary></summary>
+        </member>
+        <member name="F:Connect4.GameState.RedWins">
+            <summary></summary>
+        </member>
+        <member name="F:Connect4.GameState.Tie">
+            <summary></summary>
+        </member>
+        <member name="T:Connect4.Game">
+            <summary>
+            Class representing the state of a game as it is played
+            </summary>
+        </member>
+        <member name="M:Connect4.Game.#ctor(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Basic constructor. Retail versions of Connect 4 are 7x6, and require 4 in a row to win.
+            </summary>
+            <param name="nColumns">How many columns wide the game should be.</param>
+            <param name="nRows">How many rows high the game should be.</param>
+            <param name="LengthNeededToWin">What run length is needed to win.</param>
+        </member>
+        <member name="M:Connect4.Game.PlayMove(System.Int32)">
+            <summary>
+            Places a <see cref="T:Connect4.Checker"/> with the current player's color in the specified column, or throws an exception if the column is full 
+            </summary>
+            <param name="Column">Which column to play in</param>
+        </member>
+        <member name="M:Connect4.Game.GetWinningMoves(Connect4.Checker)">
+            <summary>
+            Returns a list of winning moves for the specified player
+            </summary>
+            <param name="Player">Which player to check for</param>
+            <returns>a <see cref="T:System.Collections.Generic.List`1"/> </returns>
+        </member>
+        <member name="M:Connect4.Game.PlayRandomMove">
+            <summary>
+            Places a checker of the current player's color in a randomly available column.
+            </summary>
+        </member>
+        <member name="M:Connect4.Game.PlayRandomMove(System.Collections.Generic.List{System.Int32})">
+            <summary>
+            Places a checker of the current player's color in a column randomly selected from the supplied list
+            </summary>
+            <param name="PossibleMoves">A list of possible columns</param>
+        </member>
+        <member name="P:Connect4.Game.Width">
+            <summary>
+            How many columns wide the board is
+            </summary>
+        </member>
+        <member name="P:Connect4.Game.Height">
+            <summary>
+            How many rows high the board is
+            </summary>
+        </member>
+        <member name="P:Connect4.Game.NeededToWin">
+            <summary>
+            What run length is needed to win
+            </summary>
+        </member>
+        <member name="P:Connect4.Game.WhoseMove">
+            <summary>
+            Who's move it is. Black has first move.
+            </summary>
+        </member>
+        <member name="P:Connect4.Game.History">
+            <summary>
+            Returns a read only list of the game state
+            </summary>
+        </member>
+        <member name="P:Connect4.Game.State">
+            <summary>
+            The current state of the game
+            </summary>
+        </member>
+        <member name="P:Connect4.Game.Current">
+            <summary>
+            The current underlying <see cref="T:Connect4.Board"/> 
+            </summary>
+        </member>
+        <member name="T:Connect4.Snapshot">
+            <summary>
+            A more complete class for keeping track of board history.
+            It contains the board on that move, the state of the game at that point, and the move which resulted from this board
+            These snapshots are only meant to be created by the Game class, rather than consumers of the library.
+            </summary>
+        </member>
+        <member name="M:Connect4.Snapshot.#ctor(Connect4.Board,Connect4.GameState,System.Int32)">
+            <summary>
+            Default constructor.
+            </summary>
+            <param name="brd">The game board</param>
+            <param name="st">The game state</param>
+            <param name="move">The move which resulted from this state</param>
+        </member>
+        <member name="F:Connect4.Snapshot.GameBoard">
+            <summary>The game board</summary>
+        </member>
+        <member name="F:Connect4.Snapshot.State">
+            <summary>The game state</summary>
+        </member>
+        <member name="F:Connect4.Snapshot.SelectedMove">
+            <summary>The move which resulted from this state</summary>
+        </member>
+    </members>
+</doc>

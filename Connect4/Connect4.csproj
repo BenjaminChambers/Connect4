@@ -1,9 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
-    <TargetFramework>netcoreapp1.1</TargetFramework>
-    <AssemblyVersion>2.1.0.0</AssemblyVersion>
-    <FileVersion>2.0.0.0</FileVersion>
+    <DocumentationFile>Connect4.xml</DocumentationFile>
+    <TargetFramework>netstandard1.4</TargetFramework>
+    <PackageId>Connect4Sharp</PackageId>
+    <PackageVersion>2.2.0</PackageVersion>
+    <authors>Benjamin Chambers</authors>
+    <owners>Benjamin Chambers</owners>
+    <licenseUrl>https://opensource.org/licenses/MIT</licenseUrl>
+    <projectUrl>https://github.com/BenjaminChambers/Connect4</projectUrl>
+    <description>A .Net library for playing Connect 4 games. The board size is user-specifiable.</description>
+    <copyright>Copyright 2017</copyright>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageReleaseNotes>Updated to .NetStandard</PackageReleaseNotes>
+    <PackageTags>Connect4</PackageTags>
   </PropertyGroup>
-
 </Project>
