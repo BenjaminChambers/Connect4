@@ -53,7 +53,7 @@ namespace Connect4
         public bool IsMoveValid(int Col)
         {
             if ((Col < 0) || (Col >= Width))
-                throw new ArgumentOutOfRangeException("Col", "Value of " + Col.ToString() + " is greater than the " + Width + " available columns.");
+                throw new ArgumentOutOfRangeException("Col", "Value of " + Col.ToString() + " must be greater than or equal to 0 and less than " + Width);
             return (_height[Col] < Height);
         }
 
