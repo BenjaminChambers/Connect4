@@ -35,5 +35,8 @@ namespace Connect4
 
             return count;
         }
+
+        Checker[,] _board;
+        int[] _height;
     }
 }

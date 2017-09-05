@@ -171,11 +171,5 @@ namespace Connect4
             return GetEnumerator();
         }
         #endregion
-
-
-        #region Internal
-        Checker[,] _board;
-        int[] _height;
-        #endregion
     }
 }
