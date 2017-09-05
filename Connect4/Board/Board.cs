@@ -40,11 +40,11 @@ namespace Connect4
         /// <summary>
         /// How many columns wide the <see cref="Board"/> is 
         /// </summary>
-        public int Width { get; private set; }
+        public readonly int Width;
         /// <summary>
         /// How many rows high the <see cref="Board"/> is 
         /// </summary>
-        public int Height { get; private set; }
+        public readonly int Height;
 
         /// <summary>
         /// Checks if you are able to place a piece in the given column
