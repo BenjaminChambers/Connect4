@@ -9,6 +9,8 @@ namespace Connect4
         {
             // Black wins = 1, Red wins = -1
             // It will be converted based on who's actually playing right now
+
+            return new List<(int Column, double Score)>();
         }
 
         private double BruteForceRecursion(Board work, int remainingDepth, Checker player)
@@ -16,8 +18,10 @@ namespace Connect4
             switch(player)
             {
                 case Checker.Black:
-                    var winning = 
+                    break;
             }
+
+            return 0;
         }
     }
 }
