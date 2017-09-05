@@ -8,6 +8,9 @@
             <summary>
             Basic class representing the gameboard at a given point in time
             </summary>
+            <summary>
+            Basic class representing the gameboard at a given point in time
+            </summary>
         </member>
         <member name="M:Connect4.Board.#ctor(System.Int32,System.Int32)">
             <summary>
@@ -117,30 +120,6 @@
             <param name="nRows">How many rows high the game should be.</param>
             <param name="LengthNeededToWin">What run length is needed to win.</param>
         </member>
-        <member name="M:Connect4.Game.PlayMove(System.Int32)">
-            <summary>
-            Places a <see cref="T:Connect4.Checker"/> with the current player's color in the specified column, or throws an exception if the column is full 
-            </summary>
-            <param name="Column">Which column to play in</param>
-        </member>
-        <member name="M:Connect4.Game.GetWinningMoves(Connect4.Checker)">
-            <summary>
-            Returns a list of winning moves for the specified player
-            </summary>
-            <param name="Player">Which player to check for</param>
-            <returns>a <see cref="T:System.Collections.Generic.List`1"/> </returns>
-        </member>
-        <member name="M:Connect4.Game.PlayRandomMove">
-            <summary>
-            Places a checker of the current player's color in a randomly available column.
-            </summary>
-        </member>
-        <member name="M:Connect4.Game.PlayRandomMove(System.Collections.Generic.List{System.Int32})">
-            <summary>
-            Places a checker of the current player's color in a column randomly selected from the supplied list
-            </summary>
-            <param name="PossibleMoves">A list of possible columns</param>
-        </member>
         <member name="P:Connect4.Game.Width">
             <summary>
             How many columns wide the board is
@@ -175,6 +154,23 @@
             <summary>
             The current underlying <see cref="T:Connect4.Board"/> 
             </summary>
+        </member>
+        <member name="M:Connect4.Game.PlayMove(System.Int32)">
+            <summary>
+            Places a <see cref="T:Connect4.Checker"/> with the current player's color in the specified column, or throws an exception if the column is full 
+            </summary>
+            <param name="Column">Which column to play in</param>
+        </member>
+        <member name="M:Connect4.Game.PlayRandomMove">
+            <summary>
+            Places a checker of the current player's color in a randomly available column.
+            </summary>
+        </member>
+        <member name="M:Connect4.Game.PlayRandomMove(System.Collections.Generic.List{System.Int32})">
+            <summary>
+            Places a checker of the current player's color in a column randomly selected from the supplied list
+            </summary>
+            <param name="PossibleMoves">A list of possible columns</param>
         </member>
         <member name="T:Connect4.Snapshot">
             <summary>

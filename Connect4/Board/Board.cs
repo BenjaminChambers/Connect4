@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Connect4
@@ -55,6 +56,19 @@ namespace Connect4
             if ((Col < 0) || (Col >= Width))
                 throw new ArgumentOutOfRangeException("Col", "Value of " + Col.ToString() + " must be greater than or equal to 0 and less than " + Width);
             return (_height[Col] < Height);
+        }
+
+        public int RunLength(int Column, int Row)
+        {
+            var c = this[Column, Row];
+
+            var counts = new int[4];
+             counts[0] = CountDir(Column, Row, 1, c) + CountDir(Column, Row, 9, c) + 1;
+             counts[1] = CountDir(Column, Row, 4, c) + CountDir(Column, Row, 6, c) + 1;
+             counts[2] = CountDir(Column, Row, 7, c) + CountDir(Column, Row, 3, c) + 1;
+             counts[3] = CountDir(Column, Row, 1, c) + 1;
+
+            return counts.Max();
         }
 
         public List<int> GetWinningMoves(Checker Player, int NeededToWin)

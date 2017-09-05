@@ -22,12 +22,7 @@ namespace Connect4
             _history.Add(new Snapshot(_current, State, Column));
             _current.PutChecker(Column, me);
 
-            int c1 = CountDir(Column, y, 1, me) + CountDir(Column, y, 9, me) + 1;
-            int c4 = CountDir(Column, y, 4, me) + CountDir(Column, y, 6, me) + 1;
-            int c7 = CountDir(Column, y, 7, me) + CountDir(Column, y, 3, me) + 1;
-            int c2 = CountDir(Column, y, 2, me) + 1;
-
-            if ((c1 >= NeededToWin) || (c4 >= NeededToWin) || (c7 >= NeededToWin) || (c2 >= NeededToWin))
+            if (_current.RunLength(Column, y) >= NeededToWin)
             {
                 State = (me == Checker.Black) ? GameState.BlackWins : GameState.RedWins;
             }
