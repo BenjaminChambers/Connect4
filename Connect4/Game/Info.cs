@@ -8,27 +8,15 @@ namespace Connect4
         /// <summary>
         /// How many columns wide the board is
         /// </summary>
-        public int Width
-        {
-            get;
-            private set;
-        }
+        public readonly int Width;
         /// <summary>
         /// How many rows high the board is
         /// </summary>
-        public int Height
-        {
-            get;
-            private set;
-        }
+        public readonly int Height;
         /// <summary>
         /// What run length is needed to win
         /// </summary>
-        public int NeededToWin
-        {
-            get;
-            private set;
-        }
+        public readonly int NeededToWin;
         /// <summary>
         /// Who's move it is. Black has first move.
         /// </summary>
