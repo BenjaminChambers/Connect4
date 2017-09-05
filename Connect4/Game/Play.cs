@@ -20,7 +20,7 @@ namespace Connect4
             int y = _current.ColumnHeight(Column);
 
             _history.Add(new Snapshot(_current, State, Column));
-            _current.PutChecker(Column, me);
+            _current = _current.PutChecker(Column, me);
 
             if (_current.RunLength(Column, y) >= NeededToWin)
             {
