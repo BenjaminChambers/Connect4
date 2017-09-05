@@ -146,14 +146,15 @@ namespace Connect4
         /// </summary>
         /// <param name="Column">The column to place it in</param>
         /// <param name="Color">The color to place</param>
-        public void PutChecker(int Column, Checker Color)
+        public Board PutChecker(int Column, Checker Color)
         {
             if ((Column < 0) || (Column >= Width)) throw new ArgumentOutOfRangeException("Col");
             if (Color == Checker.None) throw new InvalidOperationException("Color cannot be Checker.None");
             if (_height[Column] >= Height) throw new InvalidOperationException("Column " + Column.ToString() + " is already full.");
 
-            _board[Column, _height[Column]] = Color;
-            _height[Column]++;
+            var result = new Board(this);
+            result._board[Column, _height[Column]] = Color;
+            return result;
         }
 
         /// <summary>

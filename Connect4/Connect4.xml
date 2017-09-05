@@ -25,12 +25,12 @@
             </summary>
             <param name="Src">The <see cref="T:Connect4.Board"/> to copy</param>
         </member>
-        <member name="P:Connect4.Board.Width">
+        <member name="F:Connect4.Board.Width">
             <summary>
             How many columns wide the <see cref="T:Connect4.Board"/> is 
             </summary>
         </member>
-        <member name="P:Connect4.Board.Height">
+        <member name="F:Connect4.Board.Height">
             <summary>
             How many rows high the <see cref="T:Connect4.Board"/> is 
             </summary>
@@ -120,17 +120,17 @@
             <param name="nRows">How many rows high the game should be.</param>
             <param name="LengthNeededToWin">What run length is needed to win.</param>
         </member>
-        <member name="P:Connect4.Game.Width">
+        <member name="F:Connect4.Game.Width">
             <summary>
             How many columns wide the board is
             </summary>
         </member>
-        <member name="P:Connect4.Game.Height">
+        <member name="F:Connect4.Game.Height">
             <summary>
             How many rows high the board is
             </summary>
         </member>
-        <member name="P:Connect4.Game.NeededToWin">
+        <member name="F:Connect4.Game.NeededToWin">
             <summary>
             What run length is needed to win
             </summary>
