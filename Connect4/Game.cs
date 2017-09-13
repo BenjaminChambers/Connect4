@@ -41,7 +41,7 @@ namespace Connect4
             int y = _current.ColumnHeight(Column);
 
             _history.Add(new Snapshot(_current, State, Column));
-            _current.PutChecker(Column, me);
+            _current = _current.PutChecker(Column, me);
 
             int c1 = CountDir(Column, y, 1, me) + CountDir(Column, y, 9, me) + 1;
             int c4 = CountDir(Column, y, 4, me) + CountDir(Column, y, 6, me) + 1;
