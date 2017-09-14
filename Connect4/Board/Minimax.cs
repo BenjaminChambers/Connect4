@@ -7,6 +7,26 @@ namespace Connect4
 {
     public partial class Board : IEnumerable<Checker>
     {
+        int GetMinimaxMove(Checker player, int depth)
+        {
+            int bestMove = -1, bestValue = -MaxRating;
+
+            for (int i=0; i<Width; i++)
+            {
+                if (IsMoveValid(i))
+                {
+                    var eval = Minimax(PutChecker(i, player), depth, true, player);
+                    if (eval > bestValue)
+                    {
+                        bestMove = i;
+                        bestValue = eval;
+                    }
+                }
+            }
+
+            return bestMove;
+        }
+
         static int Minimax(Board node, int depth, bool maximizing, Checker player)
         {
             var count = node.CountCheckers();
