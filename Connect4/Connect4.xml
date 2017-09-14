@@ -73,6 +73,19 @@
             </summary>
             <returns>A collection of <see cref="T:Connect4.Checker"/>s </returns>
         </member>
+        <member name="M:Connect4.Board.CountCheckers">
+            <summary>
+            Counts the number of checkers on the board
+            </summary>
+            <returns>A Tuple containing (<see cref="T:System.Int32"/>Black, <see cref="T:System.Int32"/>Red, <see cref="T:System.Int32"/>Empty)</returns>
+        </member>
+        <member name="M:Connect4.Board.LongestRun(Connect4.Checker)">
+            <summary>
+            Counts the longest run of checkers on the board, looking horizontally, vertically, and diagonally
+            </summary>
+            <param name="Player">The <see cref="T:Connect4.Checker"/> color to verify</param>
+            <returns>The length of the run as an <see cref="T:System.Int32"/></returns>
+        </member>
         <member name="T:Connect4.Checker">
             <summary>
             Represents a piece which has been placed on a <see cref="T:Connect4.Board"/> 
