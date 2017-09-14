@@ -7,11 +7,18 @@ namespace Connect4
 {
     public partial class Board : IEnumerable<Checker>
     {
+        public struct BoardCount
+        {
+            public int Black;
+            public int Red;
+            public int Empty;
+        }
+
         /// <summary>
         /// Counts the number of checkers on the board
         /// </summary>
         /// <returns>A Tuple containing (<see cref="int"/>Black, <see cref="int"/>Red, <see cref="int"/>Empty)</returns>
-        public (int Black, int Red, int Empty) CountCheckers()
+        public BoardCount CountCheckers()
         {
             int b = 0, r = 0, n = 0;
 
@@ -25,7 +32,7 @@ namespace Connect4
                 }
             }
 
-            return (b, r, n);
+            return new BoardCount() { Black = b, Red = r, Empty = n };
         }
 
         /// <summary>
