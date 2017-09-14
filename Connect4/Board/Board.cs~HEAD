@@ -8,7 +8,7 @@ namespace Connect4
     /// <summary>
     /// Basic class representing the gameboard at a given point in time
     /// </summary>
-    public class Board : IEnumerable<Checker>
+    public partial class Board : IEnumerable<Checker>
     {
         #region Constructors
         /// <summary>
