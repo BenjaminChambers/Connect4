@@ -78,7 +78,7 @@ namespace Connect4
             for (int col = 0; col < Width; col++)
             {
                 var current = 0;
-                for (int i = 0; i < _height[col]; i++)
+                for (int i = 0; i <= _height[col]; i++)
                 {
                     if (_board[col, i] == Player)
                         current++;
