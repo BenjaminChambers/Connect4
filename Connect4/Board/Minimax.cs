@@ -7,7 +7,7 @@ namespace Connect4
 {
     public partial class Board : IEnumerable<Checker>
     {
-        int GetMinimaxMove(Checker player, int depth)
+        public int GetMinimaxMove(Checker player, int depth)
         {
             int bestMove = -1, bestValue = -MaxRating;
 
