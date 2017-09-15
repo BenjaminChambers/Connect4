@@ -42,10 +42,10 @@ namespace Connect4
         /// <returns>The length of the run as an <see cref="int"/></returns>
         public int LongestRun(Checker Player)
         {
-            var h = CountHorizontal(Player);
-            var v = CountVertical(Player);
+            var vh = Math.Max(CountHorizontal(Player), CountVertical(Player));
+            var diag = Math.Max(CountDiagonalUp(Player), CountDiagonalDown(Player));
 
-            return Math.Max(h, v);
+            return Math.Max(vh, diag);
         }
 
         private int CountHorizontal(Checker Player)
@@ -61,11 +61,11 @@ namespace Connect4
                         current++;
                     else
                     {
-                        if (current > longest)
-                            longest = current;
+                        longest = Math.Max(current, longest);
                         current = 0;
                     }
                 }
+                longest = Math.Max(current, longest);
             }
 
             return longest;
@@ -78,19 +78,41 @@ namespace Connect4
             for (int col = 0; col < Width; col++)
             {
                 var current = 0;
-                for (int i = 0; i <= _height[col]; i++)
+                for (int i = 0; i < Height; i++)
                 {
                     if (_board[col, i] == Player)
                         current++;
                     else
                     {
-                        if (current > longest)
-                            longest = current;
+                        longest = Math.Max(current, longest);
                         current = 0;
                     }
                 }
+
+                longest = Math.Max(current, longest);
             }
 
+            return longest;
+        }
+
+        int CountWalker(int x, int y, int dx, int dy, Checker player)
+        {
+            var longest = 0;
+            var current = 0;
+            while ((x >= 0) && (x < Width) && (y >= 0) && (y < Height))
+            {
+                if (_board[x, y] == player)
+                    current++;
+                else
+                {
+                    longest = Math.Max(current, longest);
+                    current = 0;
+                }
+
+                x += dx;
+                y += dy;
+                longest = Math.Max(current, longest);
+            }
             return longest;
         }
 
@@ -98,40 +120,14 @@ namespace Connect4
         {
             var longest = 0;
 
-            for (int row=Height-1; row>=0; row--)
+            for (int i=0; i<Height; i++)
             {
-                var current = 0;
-
-                for (int i=0; i<Math.Min(Width, Height-row); i++)
-                {
-                    if (_board[i, row + i] == Player)
-                        current++;
-                    else
-                    {
-                        if (current > longest)
-                            longest = current;
-                        current = 0;
-                    }
-                }
+                longest = Math.Max(longest, CountWalker(0, i, 1, 1, Player));
             }
-
-            for (int col=1; col<Width; col++)
+            for (int i=1; i<Width; i++)
             {
-                var current = 0;
-
-                for (int i=0; i<Math.Min(Height, Width-col); i++)
-                {
-                    if (_board[col+i, i] == Player)
-                        current++;
-                    else
-                    {
-                        if (current > longest)
-                            longest = current;
-                        current = 0;
-                    }
-                }
+                longest = Math.Max(longest, CountWalker(i, 0, 1, 1, Player));
             }
-
             return longest;
         }
 
@@ -139,40 +135,14 @@ namespace Connect4
         {
             var longest = 0;
 
-            for (int row = 0; row<Height; row++)
+            for (int i = 0; i < Height; i++)
             {
-                var current = 0;
-
-                for (int i = 0; i < Math.Min(Width, row); i++)
-                {
-                    if (_board[i, row - i] == Player)
-                        current++;
-                    else
-                    {
-                        if (current > longest)
-                            longest = current;
-                        current = 0;
-                    }
-                }
+                longest = Math.Max(longest, CountWalker(0, i, 1, -1, Player));
             }
-
-            for (int col = 1; col < Width; col++)
+            for (int i = 1; i < Width; i++)
             {
-                var current = 0;
-
-                for (int i = 0; i < Math.Min(Height, Width - col); i++)
-                {
-                    if (_board[col + i, Height-1-i] == Player)
-                        current++;
-                    else
-                    {
-                        if (current > longest)
-                            longest = current;
-                        current = 0;
-                    }
-                }
+                longest = Math.Max(longest, CountWalker(i, Height-1, 1, -1, Player));
             }
-
             return longest;
         }
     }
