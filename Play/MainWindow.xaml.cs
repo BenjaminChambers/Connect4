@@ -106,7 +106,6 @@ namespace Play
 
             Message(string.Format("Longest red chain: {0}", lr));
             Message(string.Format("Longest black chain: {0}", lb));
-
         }
 
         void PlayColumn0(object sender, RoutedEventArgs e) { if (game.State == Connect4.GameState.InProgress) { if (game.Current.IsMoveValid(0)) { game.PlayMove(0); Draw(); } } }
