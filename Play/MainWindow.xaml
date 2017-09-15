@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Play"
         mc:Ignorable="d"
-        Title="MainWindow" Height="900" Width="1200">
+        Title="MainWindow" Height="900" Width="1250">
     <Window.Resources>
         <Style TargetType="{x:Type Button}">
             <Setter Property="Margin" Value="0" />
@@ -15,7 +15,7 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1000" />
-            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="250" />
         </Grid.ColumnDefinitions>
 
         <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
