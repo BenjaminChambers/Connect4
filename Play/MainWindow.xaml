@@ -1,0 +1,73 @@
+﻿<Window x:Class="Play.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Play"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="900" Width="1200">
+    <Window.Resources>
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="Margin" Value="0" />
+            <Setter Property="Padding" Value="0" />
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1000" />
+            <ColumnDefinition Width="200" />
+        </Grid.ColumnDefinitions>
+
+        <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Button x:Name="Btn_Column0" Grid.Column="0" Click="PlayColumn0">
+                <Button.Content>
+                    <StackPanel Width="128" />
+                </Button.Content>
+            </Button>
+            <Button x:Name="Btn_Column1" Grid.Column="1" Click="PlayColumn1">
+                <Button.Content>
+                    <StackPanel Width="128" />
+                </Button.Content>
+            </Button>
+            <Button x:Name="Btn_Column2" Grid.Column="2" Click="PlayColumn2">
+                <Button.Content>
+                    <StackPanel Width="128"/>
+                </Button.Content>
+            </Button>
+            <Button x:Name="Btn_Column3" Grid.Column="3" Click="PlayColumn3">
+                <Button.Content>
+                    <StackPanel Width="128" />
+                </Button.Content>
+            </Button>
+            <Button x:Name="Btn_Column4" Grid.Column="4" Click="PlayColumn4">
+                <Button.Content>
+                    <StackPanel Width="128"/>
+               </Button.Content>
+            </Button>
+            <Button x:Name="Btn_Column5" Grid.Column="5" Click="PlayColumn5">
+                <Button.Content>
+                    <StackPanel Width="128"/>
+                </Button.Content>
+            </Button>
+            <Button x:Name="Btn_Column6" Grid.Column="6" Click="PlayColumn6">
+                <Button.Content>
+                    <StackPanel Width="128"/>
+                </Button.Content>
+            </Button>
+        </Grid>
+
+        <StackPanel Grid.Column="1">
+            <Button Content="New Game" Click="OnNewGame" />
+            <StackPanel x:Name="DisplayPanel" />
+        </StackPanel>
+    </Grid>
+</Window>
