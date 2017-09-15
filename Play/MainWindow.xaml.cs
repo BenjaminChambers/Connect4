@@ -100,6 +100,13 @@ namespace Play
                 Message(string.Format("Red has a threat in column {0}", t));
             foreach (var t in blacks)
                 Message(string.Format("Black has a threat in column {0}", t));
+
+            var lr = game.Current.LongestRun(Connect4.Checker.Red);
+            var lb = game.Current.LongestRun(Connect4.Checker.Black);
+
+            Message(string.Format("Longest red chain: {0}", lr));
+            Message(string.Format("Longest black chain: {0}", lb));
+
         }
 
         void PlayColumn0(object sender, RoutedEventArgs e) { if (game.State == Connect4.GameState.InProgress) { if (game.Current.IsMoveValid(0)) { game.PlayMove(0); Draw(); } } }
